@@ -4,8 +4,8 @@ import PrivateRoute from './PrivateRoute';
 import Home from '../components/Home/Home';
 import Login from '../components/Login/Login';
 import Menu from '../components/Menu/Menu';
-import EditUser from '../components/Profile/EditUser';
-import Profile from '../components/Profile/Profile';
+import EditProfilePage from '../components/Profile/EditProfilePage';
+import ProfilePage from '../components/Profile/ProfilePage';
 import Signup from '../components/Signup/Signup';
 import Users from '../components/Users/Users';
 
@@ -31,11 +31,11 @@ const MainRouter = () => (
         path="/login"
       />
       <PrivateRoute
-        component={EditUser}
+        component={EditProfilePage}
         path="/user/edit/:userId"
       />
       <Route
-        component={Profile}
+        component={ProfilePage}
         path="/user/:userId"
       />
     </Switch>

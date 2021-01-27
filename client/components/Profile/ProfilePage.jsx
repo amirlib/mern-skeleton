@@ -14,7 +14,7 @@ import Edit from '@material-ui/icons/Edit';
 import Person from '@material-ui/icons/Person';
 import Divider from '@material-ui/core/Divider';
 import { Redirect, Link, useParams } from 'react-router-dom';
-import DeleteUser from './DeleteUser';
+import DeleteProfile from './DeleteProfile';
 import { isAuthenticated } from '../../auth/auth-helper';
 import { read } from '../../user/api-user';
 
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Profile = () => {
+const ProfilePage = () => {
   const jwt = isAuthenticated();
   const params = useParams();
   const classes = useStyles();
@@ -105,7 +105,7 @@ const Profile = () => {
                   </IconButton>
                 </Link>
 
-                <DeleteUser userId={user._id} />
+                <DeleteProfile userId={user._id} />
               </ListItemSecondaryAction>
             )
           }
@@ -121,7 +121,7 @@ const Profile = () => {
   );
 };
 
-Profile.propTypes = {
+ProfilePage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       userId: PropTypes.string,
@@ -129,4 +129,4 @@ Profile.propTypes = {
   }).isRequired,
 };
 
-export default Profile;
+export default ProfilePage;

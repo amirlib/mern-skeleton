@@ -14,7 +14,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { logoutAll } from '../../auth/auth';
 import { isAuthenticated } from '../../auth/auth-helper';
 import { read, update } from '../../user/api-user';
-import ProfileForm from './ProfileForm';
+import EditProfileForm from './EditProfileForm';
 import NoticeDialog from '../UI/dialogs/NoticeDialog';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditUser = () => {
+const EditProfilePage = () => {
   const history = useHistory();
   const params = useParams();
   const classes = useStyles();
@@ -137,7 +137,7 @@ const EditUser = () => {
             Edit Profile
           </Typography>
 
-          <ProfileForm
+          <EditProfileForm
             email={values.email}
             error={values.error}
             handleChange={handleChange}
@@ -187,7 +187,7 @@ const EditUser = () => {
   );
 };
 
-EditUser.propTypes = {
+EditProfilePage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       userId: PropTypes.string,
@@ -195,4 +195,4 @@ EditUser.propTypes = {
   }).isRequired,
 };
 
-export default EditUser;
+export default EditProfilePage;

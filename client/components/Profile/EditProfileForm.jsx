@@ -6,7 +6,7 @@ import PasswordField from '../UI/fields/PasswordField';
 import ErrorTypography from '../UI/typographies/ErrorTypography';
 import FormContext from '../../contexts/formContext';
 
-const ProfileForm = (props) => {
+const EditProfileForm = (props) => {
   const {
     email,
     error,
@@ -37,7 +37,7 @@ const ProfileForm = (props) => {
   );
 };
 
-ProfileForm.propTypes = {
+EditProfileForm.propTypes = {
   email: PropTypes.string,
   error: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
@@ -45,11 +45,11 @@ ProfileForm.propTypes = {
   password: PropTypes.string,
 };
 
-ProfileForm.defaultProps = {
+EditProfileForm.defaultProps = {
   email: '',
   error: '',
   name: '',
   password: '',
 };
 
-export default ProfileForm;
+export default EditProfileForm;

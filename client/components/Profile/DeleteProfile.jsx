@@ -12,7 +12,7 @@ import { Redirect } from 'react-router-dom';
 import { clearAuthFromLocalStorage, isAuthenticated } from '../../auth/auth-helper';
 import { remove } from '../../user/api-user';
 
-const DeleteUser = (props) => {
+const DeleteProfile = (props) => {
   const [open, setOpen] = useState(false);
   const [redirect, setRedirect] = useState(false);
 
@@ -87,8 +87,8 @@ const DeleteUser = (props) => {
   );
 };
 
-DeleteUser.propTypes = {
+DeleteProfile.propTypes = {
   userId: PropTypes.string.isRequired,
 };
 
-export default DeleteUser;
+export default DeleteProfile;

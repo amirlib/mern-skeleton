@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
-import config from '../config/config';
 import app from './express';
+import variables from '../environment/variables';
 
 mongoose.connect(
-  config.mongoUri,
+  variables.mongoUri,
   {
     useCreateIndex: true,
     useNewUrlParser: true,
@@ -11,13 +11,13 @@ mongoose.connect(
   },
 );
 mongoose.connection.on('error', () => {
-  throw new Error(`unable to connect to database: ${config.mongoUri}`);
+  throw new Error(`unable to connect to database: ${variables.mongoUri}`);
 });
 
-app.listen(config.port, (err) => {
+app.listen(variables.port, (err) => {
   if (err) {
     console.log(err);
   }
 
-  console.info('Server started on port %s.', config.port);
+  console.info('Server started on port %s.', variables.port);
 });

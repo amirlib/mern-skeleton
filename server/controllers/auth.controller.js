@@ -1,7 +1,7 @@
 import expressJwt from 'express-jwt';
 import { getTokenStringFromHeader } from '../helpers/auth.helper';
 import User from '../models/user.model';
-import config from '../../config/config';
+import variables from '../../environment/variables';
 
 const login = async (req, res) => {
   try {
@@ -64,7 +64,7 @@ const logoutAll = async (req, res) => {
 
 const requireLogin = expressJwt({
   algorithms: ['HS256'],
-  secret: config.jwtSecret,
+  secret: variables.jwtSecret,
   userProperty: 'auth',
 });
 

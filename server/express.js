@@ -1,15 +1,13 @@
-import cors from 'cors';
 import compress from 'compression';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import express from 'express';
 import helmet from 'helmet';
 import path from 'path';
-import expressJwt from 'express-jwt';
 import compile from './devBundle';
 import authRoutes from './routes/auth.routes';
 import clientRoutes from './routes/client.routes';
 import userRoutes from './routes/user.routes';
-import config from '../config/config';
 
 const CURRENT_WORKING_DIR = process.cwd();
 

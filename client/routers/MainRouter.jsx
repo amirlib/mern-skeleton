@@ -7,7 +7,7 @@ import Menu from '../components/Menu/Menu';
 import EditProfilePage from '../components/Profile/EditProfilePage';
 import ProfilePage from '../components/Profile/ProfilePage';
 import Signup from '../components/Signup/Signup';
-import Users from '../components/Users/Users';
+import UsersPage from '../components/Users/UsersPage';
 
 const MainRouter = () => (
   <div>
@@ -19,7 +19,7 @@ const MainRouter = () => (
         path="/"
       />
       <Route
-        component={Users}
+        component={UsersPage}
         path="/users"
       />
       <Route

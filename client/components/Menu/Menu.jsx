@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
-import Button from '@material-ui/core/Button';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import MenuButton from './MenuButton';
+import MenuIconLink from './MenuIconLink';
+import MenuLink from './MenuLink';
 import { logout } from '../../auth/auth';
 import { isAuthenticated } from '../../auth/auth-helper';
 
-const isActive = (history, path) => {
-  if (history.location.pathname === path) return { color: '#ff4081' };
-
-  return { color: '#ffffff' };
-};
-
 const Menu = withRouter(({ history }) => {
+  const [LoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const jwt = isAuthenticated();
+
+    if (jwt) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  });
+
   const logoutClick = async () => {
     const jwt = isAuthenticated();
 
@@ -36,49 +43,42 @@ const Menu = withRouter(({ history }) => {
           MERN Skeleton
         </Typography>
 
-        <Link to="/">
-          <IconButton
-            aria-label="Home"
-            style={isActive(history, '/')}
-          >
-            <HomeIcon />
-          </IconButton>
-        </Link>
+        <MenuIconLink
+          display
+          iconComponent={<HomeIcon />}
+          label="Home"
+          path="/"
+        />
 
-        <Link to="/users">
-          <Button style={isActive(history, '/users')}>Users</Button>
-        </Link>
+        <MenuLink
+          display={!LoggedIn}
+          path="/login"
+          text="Login"
+        />
 
-        {
-          !isAuthenticated() && (
-            <span>
-              <Link to="/signup">
-                <Button style={isActive(history, '/signup')}>Sign up</Button>
-              </Link>
+        <MenuLink
+          display={!LoggedIn}
+          path="/signup"
+          text="Sign up"
+        />
 
-              <Link to="/login">
-                <Button style={isActive(history, '/login')}>Sign In</Button>
-              </Link>
-            </span>
-          )
-        }
+        <MenuLink
+          display={LoggedIn}
+          path="/users"
+          text="Users"
+        />
 
-        {
-          isAuthenticated() && (
-            <span>
-              <Link to={`/user/${isAuthenticated().user._id}`}>
-                <Button style={isActive(history, `/user/${isAuthenticated().user._id}`)}>My Profile</Button>
-              </Link>
+        <MenuLink
+          display={LoggedIn}
+          path={isAuthenticated() ? `/user/${isAuthenticated().user._id}` : ''}
+          text="My Profile"
+        />
 
-              <Button
-                color="inherit"
-                onClick={logoutClick}
-              >
-                Sign out
-              </Button>
-            </span>
-          )
-        }
+        <MenuButton
+          display={LoggedIn}
+          onClick={logoutClick}
+          text="Logout"
+        />
       </Toolbar>
     </AppBar>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import PrivateRoute from './PrivateRoute';
+import { Switch } from 'react-router-dom';
+import Route from './Route';
 import Home from '../components/Home/Home';
 import Login from '../components/Login/Login';
 import Menu from '../components/Menu/Menu';
@@ -12,31 +12,43 @@ import UsersPage from '../components/Users/UsersPage';
 const MainRouter = () => (
   <div>
     <Menu />
+
     <Switch>
       <Route
-        component={Home}
+        Component={Home}
         exact
         path="/"
       />
+
       <Route
-        component={UsersPage}
+        Component={UsersPage}
         path="/users"
+        requireLogin
+        redirectPath="/login"
       />
+
       <Route
-        component={Signup}
+        Component={Signup}
         path="/signup"
       />
+
       <Route
-        component={Login}
+        Component={Login}
         path="/login"
       />
-      <PrivateRoute
-        component={EditProfilePage}
-        path="/user/edit/:userId"
-      />
+
       <Route
-        component={ProfilePage}
+        Component={EditProfilePage}
+        path="/user/edit/:userId"
+        requireLogin
+        redirectPath="/login"
+      />
+
+      <Route
+        Component={ProfilePage}
         path="/user/:userId"
+        requireLogin
+        redirectPath="/login"
       />
     </Switch>
   </div>

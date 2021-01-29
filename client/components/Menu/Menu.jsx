@@ -11,7 +11,7 @@ import { logout } from '../../auth/auth';
 import { isAuthenticated } from '../../auth/auth-helper';
 
 const Menu = withRouter(({ history }) => {
-  const [LoggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     const jwt = isAuthenticated();
@@ -51,31 +51,31 @@ const Menu = withRouter(({ history }) => {
         />
 
         <MenuLink
-          display={!LoggedIn}
+          display={!loggedIn}
           path="/login"
           text="Login"
         />
 
         <MenuLink
-          display={!LoggedIn}
+          display={!loggedIn}
           path="/signup"
           text="Sign up"
         />
 
         <MenuLink
-          display={LoggedIn}
+          display={loggedIn}
           path="/users"
           text="Users"
         />
 
         <MenuLink
-          display={LoggedIn}
+          display={loggedIn}
           path={isAuthenticated() ? `/user/${isAuthenticated().user._id}` : ''}
           text="My Profile"
         />
 
         <MenuButton
-          display={LoggedIn}
+          display={loggedIn}
           onClick={logoutClick}
           text="Logout"
         />

@@ -52,6 +52,7 @@ const EditProfilePage = () => {
   });
 
   useEffect(() => {
+    console.log('EditProfilePage => useEffect');
     const abortController = new AbortController();
     const { signal } = abortController;
 

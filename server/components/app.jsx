@@ -8,15 +8,15 @@ import MainRouter from '../../client/routers/MainRouter';
 const App = (props) => {
   const {
     context,
-    req,
     theme,
+    url,
     user,
   } = props;
 
   return (
     <StaticRouter
       context={context}
-      location={req.url}
+      location={url}
     >
       <ThemeProvider theme={theme}>
         <AuthProvider userProp={user}>
@@ -29,10 +29,8 @@ const App = (props) => {
 
 App.propTypes = {
   context: PropTypes.shape({}).isRequired,
-  req: PropTypes.shape({
-    url: PropTypes.string,
-  }).isRequired,
   theme: PropTypes.shape({}).isRequired,
+  url: PropTypes.string.isRequired,
   user: PropTypes.shape({}).isRequired,
 };
 

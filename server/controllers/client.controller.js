@@ -14,8 +14,8 @@ const render = async (req, res) => {
     App,
     {
       context,
-      req,
       theme,
+      url: req.url,
       user,
     },
   );

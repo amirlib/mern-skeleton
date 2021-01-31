@@ -28,16 +28,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
   const location = useLocation();
   const classes = useStyles();
+  const { isUserLoggedIn, login } = useContext(AuthContext);
   const [values, setValues] = useState({
     email: '',
     password: '',
     error: '',
-    redirectToReferrer: false,
+    redirectToReferrer: isUserLoggedIn(),
   });
-
   const { from } = location.state || {
     from: {
       pathname: '/',

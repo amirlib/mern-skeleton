@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { Redirect, useLocation } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -6,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import RedirectDialog from '../UI/dialogs/RedirectDialog';
+import { AuthContext } from '../../contexts/auth.context';
 import { create } from '../../user/api-user';
 import SignupForm from './SignupForm';
 
@@ -28,7 +30,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Signup = () => {
+  const location = useLocation();
   const classes = useStyles();
+  const { isUserLoggedIn } = useContext(AuthContext);
   const [values, setValues] = useState({
     name: '',
     password: '',
@@ -36,6 +40,15 @@ const Signup = () => {
     open: false,
     error: '',
   });
+  const { from } = location.state || {
+    from: {
+      pathname: '/',
+    },
+  };
+
+  if (isUserLoggedIn()) {
+    return <Redirect to={from} />;
+  }
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;

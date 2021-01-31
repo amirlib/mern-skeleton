@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import compress from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';

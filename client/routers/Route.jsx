@@ -25,7 +25,7 @@ const Route = (props) => {
       <LibraryRoute
         exact={exact}
         path={path}
-        render={(props) => (
+        render={(componentProps) => (
           shouldRedirect()
             ? (
               <Redirect
@@ -35,7 +35,7 @@ const Route = (props) => {
                 }}
               />
             ) : (
-              <Component {...props} />
+              <Component {...componentProps} />
             )
         )}
       />

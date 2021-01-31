@@ -1,31 +1,26 @@
-import React from 'react';
+import { createElement } from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { StaticRouter } from 'react-router';
-import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
+import { ServerStyleSheets } from '@material-ui/core/styles';
 import { getUserByCookies } from '../helpers/auth.helper';
-import { AuthProvider } from '../../client/contexts/auth.context';
-import MainRouter from '../../client/routers/MainRouter';
+import App from '../components/app';
 import theme from '../../client/theme';
 import Template from '../../template';
 
 const render = async (req, res) => {
-  console.log('render');
   const context = {};
   const sheets = new ServerStyleSheets();
   const user = await getUserByCookies(req.cookies);
+  const app = createElement(
+    App,
+    {
+      context,
+      req,
+      theme,
+      user,
+    },
+  );
   const markup = ReactDOMServer.renderToString(
-    sheets.collect(
-      <StaticRouter
-        context={context}
-        location={req.url}
-      >
-        <ThemeProvider theme={theme}>
-          <AuthProvider userProp={user}>
-            <MainRouter />
-          </AuthProvider>
-        </ThemeProvider>
-      </StaticRouter>,
-    ),
+    sheets.collect(app),
   );
 
   if (context.url) return res.redirect(303, context.url);

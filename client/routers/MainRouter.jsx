@@ -10,7 +10,7 @@ import Signup from '../components/Signup/Signup';
 import UsersPage from '../components/Users/UsersPage';
 
 const MainRouter = () => (
-  <div>
+  <>
     <Menu />
 
     <Switch>
@@ -51,7 +51,7 @@ const MainRouter = () => (
         redirectPath="/login"
       />
     </Switch>
-  </div>
+  </>
 );
 
 export default MainRouter;

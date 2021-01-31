@@ -15,7 +15,7 @@ import Person from '@material-ui/icons/Person';
 import Divider from '@material-ui/core/Divider';
 import { Redirect, Link, useParams } from 'react-router-dom';
 import DeleteProfile from './DeleteProfile';
-import { isAuthenticated } from '../../auth/auth-helper';
+import { getJwt } from '../../auth/auth-helper';
 import { read } from '../../user/api-user';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,13 +32,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProfilePage = () => {
-  const jwt = isAuthenticated();
   const params = useParams();
   const classes = useStyles();
   const [user, setUser] = useState({});
   const [redirectToLogin, setRedirectToLogin] = useState(false);
 
   useEffect(() => {
+    const jwt = getJwt();
     const abortController = new AbortController();
     const { signal } = abortController;
 
@@ -92,8 +92,8 @@ const ProfilePage = () => {
           />
 
           {
-            isAuthenticated().user
-            && isAuthenticated().user._id === user._id
+            getJwt().user
+            && getJwt().user._id === user._id
             && (
               <ListItemSecondaryAction>
                 <Link to={`/user/edit/${user._id}`}>

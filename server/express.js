@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import compress from 'compression';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import express from 'express';
@@ -15,6 +16,7 @@ const app = express();
 
 config(app);
 
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(compress());

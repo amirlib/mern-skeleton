@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
@@ -9,31 +9,31 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Redirect } from 'react-router-dom';
-import { clearAuthFromLocalStorage, isAuthenticated } from '../../auth/auth-helper';
+import { clearJwt, getJwt } from '../../auth/auth-helper';
+import { AuthContext } from '../../contexts/auth.context';
 import { remove } from '../../user/api-user';
 
 const DeleteProfile = (props) => {
+  const { setEmptyUser } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [redirect, setRedirect] = useState(false);
-
-  const jwt = isAuthenticated();
 
   const clickButton = () => {
     setOpen(true);
   };
 
   const removeClick = async () => {
+    const jwt = getJwt();
     const res = await remove(
       props.userId,
       jwt.token,
     );
 
-    if (res && res.error) {
-      console.log(res.error);
-    } else {
-      clearAuthFromLocalStorage();
-      setRedirect(true);
-    }
+    if (res && res.error) console.log(res.error);
+
+    clearJwt();
+    setRedirect(true);
+    setEmptyUser();
   };
 
   const cancelClick = () => {

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Redirect, Route as LibraryRoute, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { isAuthenticated } from '../auth/auth-helper';
+import { AuthContext } from '../contexts/auth.context';
 
 const Route = (props) => {
   const location = useLocation();
-  const [redirect, setRedirect] = useState(false);
+  const { isUserLoggedIn } = useContext(AuthContext);
   const {
     Component,
     exact,
@@ -14,26 +14,19 @@ const Route = (props) => {
     redirectPath,
   } = props;
 
-  useEffect(() => {
-    let loggedIn = false;
-    const jwt = isAuthenticated();
+  const shouldRedirect = () => {
+    if (requireLogin) return !isUserLoggedIn();
 
-    if (jwt) loggedIn = true;
+    return false;
+  };
 
-    if (requireLogin) {
-      setRedirect(!loggedIn);
-    } else {
-      setRedirect(false);
-    }
-  });
-  console.log(`Route => path: ${path}, redirect: ${redirect}`);
   return (
     <>
       <LibraryRoute
         exact={exact}
         path={path}
         render={(props) => (
-          redirect
+          shouldRedirect()
             ? (
               <Redirect
                 to={{

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -7,28 +7,13 @@ import { withRouter } from 'react-router-dom';
 import MenuButton from './MenuButton';
 import MenuIconLink from './MenuIconLink';
 import MenuLink from './MenuLink';
-import { logout } from '../../auth/auth';
-import { isAuthenticated } from '../../auth/auth-helper';
+import { AuthContext } from '../../contexts/auth.context';
 
 const Menu = withRouter(({ history }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const jwt = isAuthenticated();
-
-    if (jwt) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-  });
+  const { isUserLoggedIn, logout, user } = useContext(AuthContext);
 
   const logoutClick = async () => {
-    const jwt = isAuthenticated();
-
-    if (!jwt || jwt.token === undefined) return history.push('/');
-
-    await logout(jwt.token);
+    if (isUserLoggedIn()) await logout();
 
     return history.push('/');
   };
@@ -51,31 +36,31 @@ const Menu = withRouter(({ history }) => {
         />
 
         <MenuLink
-          display={!loggedIn}
+          display={!isUserLoggedIn()}
           path="/login"
           text="Login"
         />
 
         <MenuLink
-          display={!loggedIn}
+          display={!isUserLoggedIn()}
           path="/signup"
           text="Sign up"
         />
 
         <MenuLink
-          display={loggedIn}
+          display={isUserLoggedIn()}
           path="/users"
           text="Users"
         />
 
         <MenuLink
-          display={loggedIn}
-          path={isAuthenticated() ? `/user/${isAuthenticated().user._id}` : ''}
+          display={isUserLoggedIn()}
+          path={isUserLoggedIn() ? `/user/${user._id}` : ''}
           text="My Profile"
         />
 
         <MenuButton
-          display={loggedIn}
+          display={isUserLoggedIn()}
           onClick={logoutClick}
           text="Logout"
         />

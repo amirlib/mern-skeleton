@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { isAuthenticated } from '../../auth/auth-helper';
+import { getJwt } from '../../auth/auth-helper';
 import { list } from '../../user/api-user';
 import UsersList from './UsersList';
 
@@ -20,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
 const Users = () => {
   const classes = useStyles();
   const [users, setUsers] = useState([]);
-  const jwt = isAuthenticated();
 
   useEffect(() => {
+    const jwt = getJwt();
     const abortController = new AbortController();
     const { signal } = abortController;
 

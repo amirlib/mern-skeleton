@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Redirect, useLocation } from 'react-router-dom';
-import { login } from '../../auth/auth';
+import { AuthContext } from '../../contexts/auth.context';
 import LoginForm from './LoginForm';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,8 +28,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = () => {
-  const classes = useStyles();
+  const { login } = useContext(AuthContext);
   const location = useLocation();
+  const classes = useStyles();
   const [values, setValues] = useState({
     email: '',
     password: '',

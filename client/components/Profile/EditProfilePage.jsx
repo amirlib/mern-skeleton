@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -11,8 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import SaveIcon from '@material-ui/icons/Save';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory, useParams } from 'react-router-dom';
-import { logoutAll } from '../../auth/auth';
-import { isAuthenticated } from '../../auth/auth-helper';
+import { getJwt } from '../../auth/auth-helper';
+import { AuthContext } from '../../contexts/auth.context';
 import { read, update } from '../../user/api-user';
 import EditProfileForm from './EditProfileForm';
 import NoticeDialog from '../UI/dialogs/NoticeDialog';
@@ -39,10 +39,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditProfilePage = () => {
+  const { isUserLoggedIn, logoutAll } = useContext(AuthContext);
   const history = useHistory();
   const params = useParams();
   const classes = useStyles();
-  const jwt = isAuthenticated();
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState({
     email: '',
@@ -52,7 +52,7 @@ const EditProfilePage = () => {
   });
 
   useEffect(() => {
-    console.log('EditProfilePage => useEffect');
+    const jwt = getJwt();
     const abortController = new AbortController();
     const { signal } = abortController;
 
@@ -86,17 +86,20 @@ const EditProfilePage = () => {
   }, [params.userId]);
 
   const logoutAllClick = async () => {
-    await logoutAll(jwt.token);
+    if (isUserLoggedIn()) await logoutAll();
 
     return history.push('/');
   };
 
   const saveClick = async () => {
+    const jwt = getJwt();
     const user = {
       name: values.name || undefined,
       email: values.email || undefined,
       password: values.password || undefined,
     };
+
+    if (!jwt || !jwt.token) return;
 
     const res = await update(
       params.userId,

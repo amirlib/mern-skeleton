@@ -9,7 +9,7 @@
   "scripts": {
     "build": "webpack --config webpack.client.prod.js && webpack --config webpack.server.js",
     "dev": "env-cmd -f ./environment/dev.env nodemon",
-    "start": "node ./dist/server.generated.js"
+    "start": "node server/server.js"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

@@ -7,7 +7,10 @@
   "repository": "github:amirlib/mern-skeleton",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon"
+    "build": "webpack --config webpack.server.js",
+    "dev": "nodemon",
+    "heroku-postbuild": "npm run build",
+    "start": "node ./dist/server.generated.js"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

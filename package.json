@@ -7,9 +7,9 @@
   "repository": "github:amirlib/mern-skeleton",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --config webpack.client.prod.js && webpack --config webpack.server.js",
+    "build": "webpack --config webpack.client.prod.js && webpack --mode=production --config webpack.server.js",
     "dev": "env-cmd -f ./environment/dev.env nodemon",
-    "start": "node server/server.js"
+    "start": "node ./dist/server.generated.js"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

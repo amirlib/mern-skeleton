@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import Edit from '@material-ui/icons/Edit';
-import Person from '@material-ui/icons/Person';
-import Divider from '@material-ui/core/Divider';
-import { Redirect, Link, useParams } from 'react-router-dom';
-import DeleteProfile from './DeleteProfile';
+import { makeStyles } from '@material-ui/core/styles';
+import Profile from './Profile';
+import ProfileNotFound from './ProfileNotFound';
 import { getJwt } from '../../auth/auth-helper';
 import { read } from '../../user/api-user';
 
@@ -34,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
 const ProfilePage = () => {
   const params = useParams();
   const classes = useStyles();
-  const [user, setUser] = useState({});
-  const [redirectToLogin, setRedirectToLogin] = useState(false);
+  const [init, setInit] = useState(false);
+  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
     const jwt = getJwt();
@@ -50,10 +40,12 @@ const ProfilePage = () => {
       );
 
       if (res && res.error) {
-        setRedirectToLogin(true);
+        setUser(undefined);
       } else {
         setUser(res);
       }
+
+      setInit(true);
     };
 
     fetchProfile(signal);
@@ -63,60 +55,18 @@ const ProfilePage = () => {
     };
   }, [params.userId]);
 
-  if (redirectToLogin) {
-    return <Redirect to="/login" />;
-  }
-
   return (
     <Paper
       className={classes.root}
       elevation={4}
     >
-      <Typography
-        className={classes.title}
-        variant="h6"
-      >
-        Profile
-      </Typography>
-      <List dense>
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar>
-              <Person />
-            </Avatar>
-          </ListItemAvatar>
+      {
+        !user && init && <ProfileNotFound />
+      }
 
-          <ListItemText
-            primary={user.name}
-            secondary={user.email}
-          />
-
-          {
-            getJwt().user
-            && getJwt().user._id === user._id
-            && (
-              <ListItemSecondaryAction>
-                <Link to={`/user/edit/${user._id}`}>
-                  <IconButton
-                    aria-label="Edit"
-                    color="primary"
-                  >
-                    <Edit />
-                  </IconButton>
-                </Link>
-
-                <DeleteProfile userId={user._id} />
-              </ListItemSecondaryAction>
-            )
-          }
-        </ListItem>
-
-        <Divider />
-
-        <ListItem>
-          <ListItemText primary={`Joined: ${new Date(user.createdAt).toDateString()}`} />
-        </ListItem>
-      </List>
+      {
+        user && init && <Profile user={user} />
+      }
     </Paper>
   );
 };

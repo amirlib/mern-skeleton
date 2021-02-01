@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,7 +11,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import SaveIcon from '@material-ui/icons/Save';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory, useParams } from 'react-router-dom';
 import { getJwt } from '../../auth/auth-helper';
 import { AuthContext } from '../../contexts/auth.context';
 import { read, update } from '../../user/api-user';
@@ -39,10 +39,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditProfilePage = () => {
-  const { isUserLoggedIn, logoutAll } = useContext(AuthContext);
   const history = useHistory();
   const params = useParams();
   const classes = useStyles();
+  const { isUserLoggedIn, logoutAll, user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState({
     email: '',
@@ -85,6 +85,10 @@ const EditProfilePage = () => {
     };
   }, [params.userId]);
 
+  if (params.userId && params.userId !== user._id.toString()) {
+    return <Redirect to={`/user/edit/${user._id}`} />;
+  }
+
   const logoutAllClick = async () => {
     if (isUserLoggedIn()) await logoutAll();
 
@@ -93,7 +97,7 @@ const EditProfilePage = () => {
 
   const saveClick = async () => {
     const jwt = getJwt();
-    const user = {
+    const data = {
       name: values.name || undefined,
       email: values.email || undefined,
       password: values.password || undefined,
@@ -104,7 +108,7 @@ const EditProfilePage = () => {
     const res = await update(
       params.userId,
       jwt.token,
-      user,
+      data,
     );
 
     if (res && res.error) {

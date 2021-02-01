@@ -2,12 +2,9 @@
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import variables from '../environment/variables';
 import webpackConfig from '../webpack.client.dev';
 
 const compile = (app) => {
-  if (variables.env !== 'development') return;
-
   const compiler = webpack(webpackConfig);
   const middleware = webpackDevMiddleware(
     compiler,

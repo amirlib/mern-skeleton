@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/user.model';
-import variables from '../../environment/variables';
 
 const getTokenStringFromHeader = (headers) => {
   if (
@@ -17,7 +16,7 @@ const getTokenStringFromHeader = (headers) => {
 const getUserByCookies = async (cookies) => {
   if (!cookies || !cookies.token) return {};
 
-  const decoded = jwt.verify(cookies.token, variables.jwtSecret);
+  const decoded = jwt.verify(cookies.token, process.env.JWT_SECRET);
 
   const user = await User.findById(decoded);
 

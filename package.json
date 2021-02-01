@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --config webpack.server.js",
-    "dev": "nodemon",
+    "dev": "env-cmd -f ./environment/dev.env nodemon",
     "heroku-postbuild": "npm run build",
     "start": "node ./dist/server.generated.js"
   },
@@ -17,6 +17,7 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "babel-loader": "^8.2.2",
+    "env-cmd": "^10.1.0",
     "eslint": "^7.18.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.22.1",

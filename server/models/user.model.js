@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
-import variables from '../../environment/variables';
 
 const UserSchema = new mongoose.Schema(
   {
@@ -54,7 +53,7 @@ UserSchema.methods.generateAuthToken = async function () {
   const user = this;
   const token = jwt.sign(
     { _id: user._id },
-    variables.jwtSecret,
+    process.env.JWT_SECRET,
   );
 
   user.tokens = user.tokens.concat({ token });

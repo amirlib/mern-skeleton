@@ -1,3 +1,4 @@
+import './mongoose.config';
 import helmetConfig from './helmet.config';
 import compile from '../devBundle';
 

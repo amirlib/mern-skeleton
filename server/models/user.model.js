@@ -5,13 +5,17 @@ import mongoose from 'mongoose';
 const UserSchema = new mongoose.Schema(
   {
     email: {
+      lowercase: true,
       match: [/.+@.+\..+/, 'Please fill a valid email address'],
+      maxlength: 255,
+      minlength: 5,
       required: 'Email is required',
       trim: true,
       type: String,
-      unique: 'Email already exists',
     },
     name: {
+      maxlength: 255,
+      minlength: 5,
       required: 'Name is required',
       trim: true,
       type: String,

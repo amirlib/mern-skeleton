@@ -3,14 +3,32 @@ import User from '../models/user.model';
 import { getErrorMessage } from '../helpers/dbErrorHandler';
 
 const create = async (req, res) => {
-  const user = new User(req.body);
+  const { email, name, password } = req.body;
 
   try {
-    await user.save();
+    const user = await User.findOne({ email: email.trim().toLowerCase() });
 
-    return res.status(200).json({ message: 'Successfully signed up!' });
+    if (user) {
+      return res
+        .status(400)
+        .json({ error: 'Email already registered' });
+    }
+
+    const newUser = new User({
+      email,
+      name,
+      password,
+    });
+
+    await newUser.save();
+
+    return res
+      .status(201)
+      .json({ message: 'Register success' });
   } catch (err) {
-    return res.status(400).json({ error: getErrorMessage(err) });
+    return res
+      .status(400)
+      .json({ error: getErrorMessage(err) });
   }
 };
 

@@ -6,12 +6,17 @@ const login = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
 
-    if (!user) return res.status('401').json({ error: 'User not found' });
+    if (!user) {
+      return res
+        .status('401')
+        .json({ error: 'User not found' });
+    }
+    const isAuthenticated = await user.authenticate(req.body.password);
 
-    if (!user.authenticate(req.body.password)) {
-      return res.status('401').send({
-        error: "Email and password don't match.",
-      });
+    if (!isAuthenticated) {
+      return res
+        .status('401')
+        .send({ error: 'Email and password do not match' });
     }
 
     const token = await user.generateAuthToken();
@@ -25,7 +30,9 @@ const login = async (req, res) => {
       },
     });
   } catch (err) {
-    return res.status('401').json({ error: 'Could not login' });
+    return res
+      .status('401')
+      .json({ error: 'Could not login' });
   }
 };
 

@@ -20,10 +20,14 @@ const setCookie = (name, value, options = {}) => {
 };
 
 const deleteCookie = (name) => {
-  setCookie(name, '', {
-    'max-age': -1,
-    path: '/',
-  });
+  setCookie(
+    name,
+    '',
+    {
+      'max-age': -1,
+      path: '/',
+    },
+  );
 };
 
 const getCookie = (name) => {

@@ -30,7 +30,7 @@ const AuthProvider = (props) => {
     if (res.error) {
       setEmptyUser();
 
-      return res.error;
+      return res;
     }
 
     setUser(res);

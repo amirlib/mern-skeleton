@@ -8,7 +8,7 @@ const login = async (req, res) => {
     if (!user) {
       return res
         .status('401')
-        .json({ error: 'Account not exists or Email and password do not match' });
+        .json({ error: 'Account not exists or Email and Password do not match' });
     }
 
     const isAuthenticated = await user.authenticate(req.body.password);
@@ -16,7 +16,7 @@ const login = async (req, res) => {
     if (!isAuthenticated) {
       return res
         .status('401')
-        .send({ error: 'Account not exists or Email and password do not match' });
+        .send({ error: 'Account not exists or Email and Password do not match' });
     }
 
     const token = await user.generateAuthToken();

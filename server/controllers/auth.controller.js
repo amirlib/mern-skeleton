@@ -74,7 +74,7 @@ const logoutAll = async (req, res) => {
 const requireLogin = async (req, res, next) => {
   const user = await getUserByCookies(req.cookies);
 
-  if (Object.keys(user) === 0) res.status('403').send({ error: 'User is not authorized' });
+  if (Object.keys(user).length === 0) res.status('403').send({ error: 'User is not authorized' });
 
   req.profile = user;
 

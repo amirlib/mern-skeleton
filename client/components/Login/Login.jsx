@@ -50,7 +50,6 @@ const Login = () => {
     };
 
     const res = await login(user);
-    console.log("🚀 ~ file: Login.jsx ~ line 53 ~ LoginClick ~ res", res);
 
     if (res && res.error) {
       setValues({

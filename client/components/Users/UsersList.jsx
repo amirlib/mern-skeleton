@@ -44,7 +44,7 @@ const UsersList = (props) => {
 
 UsersList.propTypes = {
   users: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string,
+    id: PropTypes.string,
     name: PropTypes.string,
   })),
 };

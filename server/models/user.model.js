@@ -50,7 +50,7 @@ UserSchema.methods.encryptPassword = async function (password) {
 UserSchema.methods.generateAuthToken = async function () {
   const user = this;
   const token = jwt.sign(
-    { _id: user._id },
+    { id: user._id },
     process.env.JWT_SECRET,
   );
 
@@ -65,6 +65,7 @@ UserSchema.methods.toJSON = function () {
   const user = this;
   const userObject = user.toObject();
 
+  delete userObject.__v;
   delete userObject.password;
   delete userObject.tokens;
 

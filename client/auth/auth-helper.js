@@ -1,32 +1,22 @@
-import { deleteCookie, getCookie, setCookie } from './cookies-helper';
-
-const clearJwt = () => {
+const clear = () => {
   if (typeof window !== 'undefined') localStorage.removeItem('user');
-  if (typeof document !== 'undefined') deleteCookie('token');
 };
 
-const getJwt = () => {
+const get = () => {
   if (typeof window === 'undefined') return {};
-  if (typeof document === 'undefined') return {};
 
-  if (getCookie('token')) {
-    return {
-      token: getCookie('token'),
-      user: JSON.parse(localStorage.getItem('user')),
-    };
-  }
-
-  return {};
+  return {
+    user: JSON.parse(localStorage.getItem('user')),
+  };
 };
 
-const saveJwt = (jwt) => {
-  if (typeof document !== 'undefined') setCookie('token', jwt.token, { path: '/' });
+const save = (data) => {
   if (typeof window !== 'undefined') {
     localStorage.setItem(
       'user',
-      JSON.stringify(jwt.user),
+      JSON.stringify(data),
     );
   }
 };
 
-export { clearJwt, getJwt, saveJwt };
+export { clear, get, save };

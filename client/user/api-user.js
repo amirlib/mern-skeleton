@@ -18,14 +18,12 @@ const create = async (user) => {
   }
 };
 
-const list = async (token, signal) => {
+const list = async (signal) => {
   try {
     const response = await fetch(
       '/api/users/',
       {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
         method: 'GET',
         signal,
       },
@@ -37,14 +35,14 @@ const list = async (token, signal) => {
   }
 };
 
-const read = async (userId, token, signal) => {
+const read = async (userId, signal) => {
   try {
     const response = await fetch(
       `/api/users/${userId}`,
       {
+        credentials: 'include',
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         method: 'GET',
@@ -58,14 +56,12 @@ const read = async (userId, token, signal) => {
   }
 };
 
-const remove = async (userId, token) => {
+const remove = async (userId) => {
   try {
     const response = await fetch(
       `/api/users/${userId}`,
       {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
         method: 'DELETE',
       },
     );
@@ -76,15 +72,15 @@ const remove = async (userId, token) => {
   }
 };
 
-const update = async (userId, token, user) => {
+const update = async (userId, user) => {
   try {
     const response = await fetch(
       `/api/users/${userId}`,
       {
         body: JSON.stringify(user),
+        credentials: 'include',
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         method: 'PATCH',

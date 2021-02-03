@@ -1,5 +1,4 @@
-import expressJwt from 'express-jwt';
-import { getTokenStringFromHeader } from '../helpers/auth.helper';
+import { getUserByCookies } from '../helpers/auth.helper';
 import User from '../models/user.model';
 
 const login = async (req, res) => {
@@ -9,26 +8,28 @@ const login = async (req, res) => {
     if (!user) {
       return res
         .status('401')
-        .json({ error: 'User not found' });
+        .json({ error: 'Account not exists or Email and password do not match' });
     }
+
     const isAuthenticated = await user.authenticate(req.body.password);
 
     if (!isAuthenticated) {
       return res
         .status('401')
-        .send({ error: 'Email and password do not match' });
+        .send({ error: 'Account not exists or Email and password do not match' });
     }
 
     const token = await user.generateAuthToken();
 
-    return res.json({
+    res.cookie(
+      't',
       token,
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-      },
-    });
+      { httpOnly: true },
+    );
+
+    return res
+      .status(200)
+      .json({ _id: user._id });
   } catch (err) {
     return res
       .status('401')
@@ -38,19 +39,19 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    const token = getTokenStringFromHeader(req.headers);
-
     req.profile.tokens = req.profile.tokens.filter(
-      (t) => t.token !== token,
+      (token) => token.token !== req.cookies.t,
     );
 
     await req.profile.save();
 
-    return res.status('200').json({ message: 'logged out' });
+    res.clearCookie('t');
+
+    return res.status(200).json({ message: 'logged out' });
   } catch (e) {
     console.log(e);
 
-    return res.status('500').send();
+    return res.status(500).send();
   }
 };
 
@@ -60,32 +61,49 @@ const logoutAll = async (req, res) => {
 
     await req.profile.save();
 
-    return res.status('200').json({ message: 'logged out' });
+    res.clearCookie('t');
+
+    return res.status(200).json({ message: 'logged out' });
   } catch (e) {
     console.log(e);
 
-    return res.status('500').send();
+    return res.status(500).send();
   }
 };
 
-const requireLogin = expressJwt({
-  algorithms: ['HS256'],
-  secret: process.env.JWT_SECRET,
-  userProperty: 'auth',
-});
+const requireLogin = async (req, res, next) => {
+  const user = await getUserByCookies(req.cookies);
+
+  if (Object.keys(user) === 0) res.status('403').send({ error: 'User is not authorized' });
+
+  req.profile = user;
+
+  return next();
+};
 
 const hasAuthorization = (req, res, next) => {
-  const authorized = req.profile && req.auth && req.profile._id.toString() === req.auth._id;
+  const authorized = req.profile
+    && req.user
+    && req.profile._id.toString() === req.user._id.toString();
 
   if (!authorized) return res.status('403').json({ error: 'User is not authorized' });
 
   return next();
 };
 
+const verify = async (req, res) => {
+  const user = await getUserByCookies(req.cookies);
+
+  if (Object.keys(user) === 0) res.status('422').send({ error: 'User not found' });
+
+  return res.status('200').json({ user });
+};
+
 export {
+  hasAuthorization,
   login,
   logout,
   logoutAll,
   requireLogin,
-  hasAuthorization,
+  verify,
 };

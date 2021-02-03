@@ -42,11 +42,11 @@ const list = async (req, res) => {
   }
 };
 
-const read = (req, res) => res.json(req.profile);
+const read = (req, res) => res.json(req.user);
 
 const remove = async (req, res) => {
   try {
-    const user = req.profile;
+    const { user } = req;
     const deletedUser = await user.remove();
 
     return res.json(deletedUser);
@@ -57,29 +57,19 @@ const remove = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    let user = req.profile;
+    let { user } = req;
 
     user = extend(user, req.body);
 
     await user.save();
 
-    return res.json(user);
+    return res
+      .status(200)
+      .json(user);
   } catch (err) {
-    return res.status(400).json({ error: getErrorMessage(err) });
-  }
-};
-
-const userByCredentials = async (req, res, next) => {
-  try {
-    const user = await User.findById(req.auth._id);
-
-    if (!user) throw new Error();
-
-    req.profile = user;
-
-    return next();
-  } catch (e) {
-    return res.status(401).send({ error: 'Please authenticate.' });
+    return res
+      .status(400)
+      .json({ error: getErrorMessage(err) });
   }
 };
 
@@ -87,13 +77,13 @@ const userById = async (req, res, next, id) => {
   try {
     const user = await User.findById(id);
 
-    if (!user) return res.status('400').json({ error: 'User not found' });
+    if (!user) return res.status(400).json({ error: 'User not found' });
 
-    req.profile = user;
+    req.user = user;
 
     return next();
   } catch (err) {
-    return res.status('400').json({ error: 'Could not retrieve user' });
+    return res.status(400).json({ error: 'Could not retrieve user' });
   }
 };
 
@@ -103,6 +93,5 @@ export {
   read,
   remove,
   update,
-  userByCredentials,
   userById,
 };

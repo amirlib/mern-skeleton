@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
@@ -14,7 +14,7 @@ import Person from '@material-ui/icons/Person';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteProfile from './DeleteProfile';
-import { getJwt } from '../../auth/auth-helper';
+import { AuthContext } from '../../contexts/auth.context';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -24,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Profile = (props) => {
-  const { user } = props;
+  const { profile } = props;
+  const { user } = useContext(AuthContext);
   const classes = useStyles();
 
   return (
@@ -45,13 +46,13 @@ const Profile = (props) => {
           </ListItemAvatar>
 
           <ListItemText
-            primary={user.name}
-            secondary={user.email}
+            primary={profile.name}
+            secondary={profile.email}
           />
 
           {
-            getJwt().user
-            && getJwt().user._id === user._id
+            user
+            && user._id === profile._id
             && (
               <ListItemSecondaryAction>
                 <Link to={`/user/edit/${user._id}`}>
@@ -72,7 +73,7 @@ const Profile = (props) => {
         <Divider />
 
         <ListItem>
-          <ListItemText primary={`Joined: ${new Date(user.createdAt).toDateString()}`} />
+          <ListItemText primary={`Joined: ${new Date(profile.createdAt).toDateString()}`} />
         </ListItem>
       </List>
     </>
@@ -80,7 +81,7 @@ const Profile = (props) => {
 };
 
 Profile.propTypes = {
-  user: PropTypes.shape({
+  profile: PropTypes.shape({
     _id: PropTypes.string,
     createdAt: PropTypes.string,
     email: PropTypes.string,
@@ -89,7 +90,7 @@ Profile.propTypes = {
 };
 
 Profile.defaultProps = {
-  user: PropTypes.shape({
+  profile: PropTypes.shape({
     _id: '',
     createdAt: '',
     email: '',

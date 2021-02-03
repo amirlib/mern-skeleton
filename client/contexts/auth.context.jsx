@@ -1,11 +1,13 @@
 import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as auth from '../auth/auth';
-import { getJwt } from '../auth/auth-helper';
+import { get } from '../auth/auth-helper';
 
 const AuthContext = createContext({
   isUserLoggedIn: () => false,
+  login: () => ({ error: 'User not found' }),
   user: {},
+  verify: () => false,
 });
 
 const AuthProvider = (props) => {
@@ -15,9 +17,9 @@ const AuthProvider = (props) => {
   const setEmptyUser = () => setUser({});
 
   const isUserLoggedIn = () => {
-    const jwt = getJwt();
+    const data = get();
 
-    if (jwt.token || Object.keys(user).length > 0) return true;
+    if (data.user || Object.keys(user).length > 0) return true;
 
     return false;
   };
@@ -25,31 +27,43 @@ const AuthProvider = (props) => {
   const login = async (data) => {
     const res = await auth.login(data);
 
-    if (res && res.error) {
+    if (res.error) {
       setEmptyUser();
-    } else {
-      const jwt = getJwt();
 
-      setUser(jwt.user);
+      return res.error;
     }
 
-    return res;
+    setUser(res);
+
+    return undefined;
   };
 
   const logout = async () => {
-    const jwt = getJwt();
-
-    if (jwt && jwt.token) await auth.logout(jwt.token);
+    await auth.logout();
 
     setEmptyUser();
   };
 
   const logoutAll = async () => {
-    const jwt = getJwt();
-
-    if (jwt && jwt.token) await auth.logoutAll(jwt.token);
+    await auth.logoutAll();
 
     setEmptyUser();
+  };
+
+  const verify = async () => {
+    const res = await auth.verify();
+
+    if (res.error) {
+      setEmptyUser();
+
+      return false;
+    }
+
+    if (res.user._id.toString() !== user._id.toString()) {
+      setUser(res);
+    }
+
+    return true;
   };
 
   return (
@@ -61,6 +75,7 @@ const AuthProvider = (props) => {
         logoutAll,
         setEmptyUser,
         user,
+        verify,
       }}
     >
       {children}

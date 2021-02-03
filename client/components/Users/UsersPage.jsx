@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { getJwt } from '../../auth/auth-helper';
 import { list } from '../../user/api-user';
 import UsersList from './UsersList';
 
@@ -22,15 +21,11 @@ const Users = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const jwt = getJwt();
     const abortController = new AbortController();
     const { signal } = abortController;
 
     const fetchUsers = async (signalToAbort) => {
-      const res = await list(
-        jwt.token,
-        signalToAbort,
-      );
+      const res = await list(signalToAbort);
 
       if (res && !res.error) setUsers(res);
     };

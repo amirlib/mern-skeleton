@@ -1,6 +1,5 @@
 import express from 'express';
 import * as authCtrl from '../controllers/auth.controller';
-import { userByCredentials } from '../controllers/user.controller';
 
 const router = express.Router();
 
@@ -8,9 +7,12 @@ router.route('/auth/login')
   .post(authCtrl.login);
 
 router.route('/auth/logout')
-  .get(authCtrl.requireLogin, userByCredentials, authCtrl.logout);
+  .get(authCtrl.requireLogin, authCtrl.logout);
 
 router.route('/auth/logoutAll')
-  .get(authCtrl.requireLogin, userByCredentials, authCtrl.logoutAll);
+  .get(authCtrl.requireLogin, authCtrl.logoutAll);
+
+router.route('/auth/verify')
+  .post(authCtrl.verify);
 
 export default router;

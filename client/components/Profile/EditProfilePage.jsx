@@ -11,7 +11,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import SaveIcon from '@material-ui/icons/Save';
 import { makeStyles } from '@material-ui/core/styles';
-import { getJwt } from '../../auth/auth-helper';
 import { AuthContext } from '../../contexts/auth.context';
 import { read, update } from '../../user/api-user';
 import EditProfileForm from './EditProfileForm';
@@ -42,7 +41,7 @@ const EditProfilePage = () => {
   const history = useHistory();
   const params = useParams();
   const classes = useStyles();
-  const { isUserLoggedIn, logoutAll, user } = useContext(AuthContext);
+  const { logoutAll, user, verify } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState({
     email: '',
@@ -52,14 +51,14 @@ const EditProfilePage = () => {
   });
 
   useEffect(() => {
-    const jwt = getJwt();
     const abortController = new AbortController();
     const { signal } = abortController;
 
     const fetchProfile = async (signalToAbort) => {
+      await verify();
+
       const res = await read(
         params.userId,
-        jwt.token,
         signalToAbort,
       );
 
@@ -69,6 +68,10 @@ const EditProfilePage = () => {
           error: res.error,
         });
       } else {
+        if (user && user._id && user._id !== res._id) {
+          return <Redirect to={`/user/edit/${user._id}`} />;
+        }
+
         setValues({
           ...values,
           email: res.email,
@@ -90,24 +93,20 @@ const EditProfilePage = () => {
   }
 
   const logoutAllClick = async () => {
-    if (isUserLoggedIn()) await logoutAll();
+    await logoutAll();
 
     return history.push('/');
   };
 
   const saveClick = async () => {
-    const jwt = getJwt();
     const data = {
       name: values.name || undefined,
       email: values.email || undefined,
       password: values.password || undefined,
     };
 
-    if (!jwt || !jwt.token) return;
-
     const res = await update(
       params.userId,
-      jwt.token,
       data,
     );
 

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Profile from './Profile';
 import ProfileNotFound from './ProfileNotFound';
-import { getJwt } from '../../auth/auth-helper';
+import { AuthContext } from '../../contexts/auth.context';
 import { read } from '../../user/api-user';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,25 +24,26 @@ const useStyles = makeStyles((theme) => ({
 const ProfilePage = () => {
   const params = useParams();
   const classes = useStyles();
+  const { verify } = useContext(AuthContext);
   const [init, setInit] = useState(false);
-  const [user, setUser] = useState(undefined);
+  const [profile, setProfile] = useState(undefined);
 
   useEffect(() => {
-    const jwt = getJwt();
     const abortController = new AbortController();
     const { signal } = abortController;
 
     const fetchProfile = async (signalToAbort) => {
       const res = await read(
         params.userId,
-        jwt.token,
         signalToAbort,
       );
 
       if (res && res.error) {
-        setUser(undefined);
+        setProfile(undefined);
       } else {
-        setUser(res);
+        await verify();
+
+        setProfile(res);
       }
 
       setInit(true);
@@ -61,11 +62,11 @@ const ProfilePage = () => {
       elevation={4}
     >
       {
-        !user && init && <ProfileNotFound />
+        !profile && init && <ProfileNotFound />
       }
 
       {
-        user && init && <Profile user={user} />
+        profile && init && <Profile profile={profile} />
       }
     </Paper>
   );

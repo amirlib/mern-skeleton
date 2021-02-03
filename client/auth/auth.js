@@ -1,5 +1,5 @@
-import { loginRequest, logoutRequest } from './auth-api';
-import { clearJwt, saveJwt } from './auth-helper';
+import { loginRequest, logoutRequest, verifyRequest } from './auth-api';
+import { clear, get, save } from './auth-helper';
 
 const login = async (user) => {
   try {
@@ -7,22 +7,47 @@ const login = async (user) => {
 
     if (res.error) return res;
 
-    return saveJwt(res);
+    save({ _id: res._id });
+
+    return res;
   } catch (err) {
     return { error: 'Error has occurred. Please try again or contact for support.' };
   }
 };
 
-const logout = async (token, isLogoutFromAll = false) => {
+const logout = async (isLogoutFromAll = false) => {
   try {
-    return await logoutRequest(token, isLogoutFromAll);
+    return await logoutRequest(isLogoutFromAll);
   } catch (err) {
     return undefined;
   } finally {
-    clearJwt();
+    clear();
   }
 };
 
-const logoutAll = async (token) => await logout(token, true);
+const logoutAll = async () => await logout(true);
 
-export { login, logout, logoutAll };
+const verify = async () => {
+  try {
+    const res = await verifyRequest();
+
+    if (res.error) {
+      clear();
+    } else {
+      const local = get();
+
+      if (local._id !== res.user._id) save({ _id: res.user._id });
+    }
+
+    return res;
+  } catch (err) {
+    return { error: 'Error has occurred.' };
+  }
+};
+
+export {
+  login,
+  logout,
+  logoutAll,
+  verify,
+};

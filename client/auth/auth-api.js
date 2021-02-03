@@ -15,15 +15,13 @@ const loginRequest = async (user) => {
   return await response.json();
 };
 
-const logoutRequest = async (token, isLogoutFromAll) => {
+const logoutRequest = async (isLogoutFromAll) => {
   const path = isLogoutFromAll ? 'logoutAll' : 'logout';
 
   const response = await fetch(
     `/auth/${path}/`,
     {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      credentials: 'include',
       method: 'GET',
     },
   );
@@ -31,4 +29,16 @@ const logoutRequest = async (token, isLogoutFromAll) => {
   return await response.json();
 };
 
-export { loginRequest, logoutRequest };
+const verifyRequest = async () => {
+  const response = await fetch(
+    '/auth/verify/',
+    {
+      credentials: 'include',
+      method: 'POST',
+    },
+  );
+
+  return await response.json();
+};
+
+export { loginRequest, logoutRequest, verifyRequest };

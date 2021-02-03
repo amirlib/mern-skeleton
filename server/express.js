@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import compress from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -26,15 +25,5 @@ app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')));
 app.use('/', authRoutes);
 app.use('/', userRoutes);
 app.use('/', clientRoutes);
-
-app.use((err, req, res, next) => {
-  if (err.name === 'UnauthorizedError') {
-    res.status(401).json({ error: `${err.name}: ${err.message}` });
-  } else if (err) {
-    res.status(400).json({ error: `${err.name}: ${err.message}` });
-
-    console.log(err);
-  }
-});
 
 export default app;

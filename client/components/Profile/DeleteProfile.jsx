@@ -9,7 +9,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Redirect } from 'react-router-dom';
-import { clearJwt, getJwt } from '../../auth/auth-helper';
+import { clear } from '../../auth/auth-helper';
 import { AuthContext } from '../../contexts/auth.context';
 import { remove } from '../../user/api-user';
 
@@ -23,15 +23,11 @@ const DeleteProfile = (props) => {
   };
 
   const removeClick = async () => {
-    const jwt = getJwt();
-    const res = await remove(
-      props.userId,
-      jwt.token,
-    );
+    const res = await remove(props.userId);
 
     if (res && res.error) console.log(res.error);
 
-    clearJwt();
+    clear();
     setRedirect(true);
     setEmptyUser();
   };

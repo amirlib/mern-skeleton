@@ -33,6 +33,10 @@ const ProfilePage = () => {
     const { signal } = abortController;
 
     const fetchProfile = async (signalToAbort) => {
+      const isVerified = await verify();
+
+      if (!isVerified) return;
+
       const res = await read(
         params.userId,
         signalToAbort,
@@ -41,8 +45,6 @@ const ProfilePage = () => {
       if (res && res.error) {
         setProfile(undefined);
       } else {
-        await verify();
-
         setProfile(res);
       }
 

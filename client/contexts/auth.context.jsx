@@ -27,11 +27,7 @@ const AuthProvider = (props) => {
   const login = async (data) => {
     const res = await auth.login(data);
 
-    if (res.error) {
-      setEmptyUser();
-
-      return res;
-    }
+    if (res.error) return res;
 
     setUser(res);
 
@@ -59,9 +55,7 @@ const AuthProvider = (props) => {
       return false;
     }
 
-    if (res.user._id.toString() !== user._id.toString()) {
-      setUser(res);
-    }
+    if (res.user._id.toString() !== user._id.toString()) setUser(res);
 
     return true;
   };

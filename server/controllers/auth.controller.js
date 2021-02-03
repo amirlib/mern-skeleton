@@ -74,7 +74,7 @@ const logoutAll = async (req, res) => {
 const requireLogin = async (req, res, next) => {
   const user = await getUserByCookies(req.cookies);
 
-  if (Object.keys(user).length === 0) res.status('403').send({ error: 'User is not authorized' });
+  if (Object.keys(user).length === 0) return res.status('403').send({ error: 'User is not authorized' });
 
   req.profile = user;
 
@@ -94,7 +94,7 @@ const hasAuthorization = (req, res, next) => {
 const verify = async (req, res) => {
   const user = await getUserByCookies(req.cookies);
 
-  if (Object.keys(user).length === 0) res.status('422').send({ error: 'User not found' });
+  if (Object.keys(user).length === 0) return res.status('422').send({ error: 'User not found' });
 
   return res.status('200').json({ user });
 };

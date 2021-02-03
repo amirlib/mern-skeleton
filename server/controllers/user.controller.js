@@ -38,7 +38,9 @@ const list = async (req, res) => {
 
     return res.json(users);
   } catch (err) {
-    return res.status(400).json({ error: getErrorMessage(err) });
+    return res
+      .status(400)
+      .json({ error: getErrorMessage(err) });
   }
 };
 
@@ -51,7 +53,9 @@ const remove = async (req, res) => {
 
     return res.json(deletedUser);
   } catch (err) {
-    return res.status(400).json({ error: getErrorMessage(err) });
+    return res
+      .status(400)
+      .json({ error: getErrorMessage(err) });
   }
 };
 
@@ -77,13 +81,19 @@ const userById = async (req, res, next, id) => {
   try {
     const user = await User.findById(id);
 
-    if (!user) return res.status(400).json({ error: 'User not found' });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ error: 'User not found' });
+    }
 
     req.user = user;
 
     return next();
   } catch (err) {
-    return res.status(400).json({ error: 'Could not retrieve user' });
+    return res
+      .status(400)
+      .json({ error: 'Could not retrieve user' });
   }
 };
 

@@ -55,7 +55,9 @@ const EditProfilePage = () => {
     const { signal } = abortController;
 
     const fetchProfile = async (signalToAbort) => {
-      await verify();
+      const isVerified = await verify();
+
+      if (!isVerified) return;
 
       const res = await read(
         params.userId,

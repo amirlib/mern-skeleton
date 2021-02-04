@@ -101,7 +101,7 @@ const Signup = () => {
             password={values.password}
           />
         </CardContent>
-
+        <br />
         <CardActions>
           <Button
             className={classes.submit}

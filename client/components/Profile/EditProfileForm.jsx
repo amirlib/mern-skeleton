@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CostumeTextField from '../UI/fields/CostumeTextField';
 import EmailField from '../UI/fields/EmailField';
+import NameField from '../UI/fields/NameField';
 import PasswordField from '../UI/fields/PasswordField';
 import ErrorTypography from '../UI/typographies/ErrorTypography';
 import FormContext from '../../contexts/formContext';
@@ -18,12 +18,7 @@ const EditProfileForm = (props) => {
   return (
     <>
       <FormContext.Provider value={{ handleChange }}>
-        <CostumeTextField
-          id="name"
-          label="Name"
-          type="text"
-          value={name}
-        />
+        <NameField value={name} />
         <br />
 
         <EmailField value={email} />

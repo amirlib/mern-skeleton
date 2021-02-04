@@ -16,6 +16,7 @@ const CostumeTextField = (props) => {
   const classes = useStyles();
   const { handleChange } = useContext(FormContext);
   const {
+    helperText,
     id,
     label,
     type,
@@ -25,6 +26,7 @@ const CostumeTextField = (props) => {
   return (
     <TextField
       className={classes.textField}
+      helperText={helperText}
       id={id}
       label={label}
       margin="normal"
@@ -37,13 +39,16 @@ const CostumeTextField = (props) => {
 };
 
 CostumeTextField.propTypes = {
+  helperText: PropTypes.string,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   value: PropTypes.string,
 };
 
 CostumeTextField.defaultProps = {
+  helperText: '',
+  type: 'text',
   value: '',
 };
 

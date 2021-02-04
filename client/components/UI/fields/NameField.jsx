@@ -2,26 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CostumeTextField from './CostumeTextField';
 
-const PasswordField = (props) => {
+const NameField = (props) => {
   const { value } = props;
 
   return (
     <CostumeTextField
-      helperText="Password must include at least 5 characters."
-      id="password"
-      label="Password"
-      type="password"
+      helperText="Name must include at least 2 characters."
+      id="name"
+      label="Name"
       value={value}
     />
   );
 };
 
-PasswordField.propTypes = {
+NameField.propTypes = {
   value: PropTypes.string,
 };
 
-PasswordField.defaultProps = {
+NameField.defaultProps = {
   value: '',
 };
 
-export default PasswordField;
+export default NameField;

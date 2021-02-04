@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import CostumeTextField from './CostumeTextField';
 
 const PasswordField = (props) => {
-  const { value } = props;
+  const { showHelperText, value } = props;
 
   return (
     <CostumeTextField
-      helperText="Password must include at least 5 characters."
+      helperText={showHelperText ? 'Password must include at least 5 characters' : ''}
       id="password"
       label="Password"
       type="password"
@@ -17,10 +17,12 @@ const PasswordField = (props) => {
 };
 
 PasswordField.propTypes = {
+  showHelperText: PropTypes.bool,
   value: PropTypes.string,
 };
 
 PasswordField.defaultProps = {
+  showHelperText: true,
   value: '',
 };
 

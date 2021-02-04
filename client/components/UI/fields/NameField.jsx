@@ -7,7 +7,7 @@ const NameField = (props) => {
 
   return (
     <CostumeTextField
-      helperText="Name must include at least 2 characters."
+      helperText="Name must include at least 2 characters"
       id="name"
       label="Name"
       value={value}

@@ -19,7 +19,10 @@ const LoginForm = (props) => {
         <EmailField value={email} />
         <br />
 
-        <PasswordField value={password} />
+        <PasswordField
+          showHelperText={false}
+          value={password}
+        />
       </FormContext.Provider>
 
       <ErrorTypography errorText={error} />

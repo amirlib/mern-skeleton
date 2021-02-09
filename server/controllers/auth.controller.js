@@ -4,7 +4,6 @@ import User from '../models/user.model';
 const login = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    console.log("🚀 ~ file: auth.controller.js ~ line 7 ~ login ~ user", user);
 
     if (!user) {
       return res

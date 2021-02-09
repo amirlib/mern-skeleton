@@ -33,12 +33,12 @@ const Signup = () => {
   const location = useLocation();
   const classes = useStyles();
   const { isUserLoggedIn } = useContext(AuthContext);
+  const [error, setError] = useState('');
+  const [open, setOpen] = useState(false);
   const [values, setValues] = useState({
+    email: '',
     name: '',
     password: '',
-    email: '',
-    open: false,
-    error: '',
   });
   const { from } = location.state || {
     from: {
@@ -60,25 +60,13 @@ const Signup = () => {
   };
 
   const signupClick = async () => {
-    const user = {
-      name: values.name || undefined,
-      email: values.email || undefined,
-      password: values.password || undefined,
-    };
-
-    const res = await create(user);
+    const res = await create(values);
 
     if (res.error) {
-      setValues({
-        ...values,
-        error: res.error,
-      });
+      setError(res.error);
     } else {
-      setValues({
-        ...values,
-        error: '',
-        open: true,
-      });
+      setError('');
+      setOpen(true);
     }
   };
 
@@ -95,7 +83,7 @@ const Signup = () => {
 
           <SignupForm
             email={values.email}
-            error={values.error}
+            error={error}
             handleChange={handleChange}
             name={values.name}
             password={values.password}
@@ -119,7 +107,7 @@ const Signup = () => {
         actionText="Sign In"
         dialogText="New account successfully created."
         dialogTitle="New Account"
-        open={values.open}
+        open={open}
       />
     </div>
   );

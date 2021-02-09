@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import RedirectDialog from '../UI/dialogs/RedirectDialog';
 import { AuthContext } from '../../contexts/auth.context';
-import userValidator from '../../validators/user.validator';
+import { userSanitizer, userValidator } from '../../validators/user.validator';
 import { create } from '../../user/api-user';
 import SignupForm from './SignupForm';
 
@@ -63,7 +63,8 @@ const Signup = () => {
   const signupClick = async () => {
     if (error) setError('');
 
-    const validations = userValidator(values);
+    const sanitizedValues = userSanitizer(values);
+    const validations = userValidator(sanitizedValues);
 
     if (validations.error) {
       setError(validations.error);

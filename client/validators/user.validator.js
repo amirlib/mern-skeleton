@@ -1,4 +1,11 @@
+import validator from 'validator';
 import { customValidator, emailValidator } from './fields.validator';
+
+const userSanitizer = (values) => ({
+  email: validator.escape(values.email.trim()),
+  name: validator.escape(values.name.trim()),
+  password: validator.escape(values.password.trim()),
+});
 
 const userValidator = (values) => {
   const emailRes = emailValidator(
@@ -40,4 +47,4 @@ const userValidator = (values) => {
   return { valid: true };
 };
 
-export default userValidator;
+export { userSanitizer, userValidator };

@@ -42,10 +42,10 @@ const EditProfilePage = () => {
   const params = useParams();
   const classes = useStyles();
   const { logoutAll, user, verify } = useContext(AuthContext);
+  const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState({
     email: '',
-    error: '',
     name: '',
     password: '',
   });
@@ -65,19 +65,16 @@ const EditProfilePage = () => {
       );
 
       if (res && res.error) {
-        setValues({
-          ...values,
-          error: res.error,
-        });
+        setError(res.error);
       } else {
         if (user && user._id && user._id !== res._id) {
           return <Redirect to={`/user/edit/${user._id}`} />;
         }
 
+        setError('');
         setValues({
           ...values,
           email: res.email,
-          error: '',
           name: res.name,
         });
       }
@@ -113,15 +110,9 @@ const EditProfilePage = () => {
     );
 
     if (res && res.error) {
-      setValues({
-        ...values,
-        error: res.error,
-      });
+      setError(res.error);
     } else {
-      setValues({
-        ...values,
-        error: '',
-      });
+      setError('');
       setOpen(true);
     }
   };
@@ -148,7 +139,7 @@ const EditProfilePage = () => {
 
           <EditProfileForm
             email={values.email}
-            error={values.error}
+            error={error}
             handleChange={handleChange}
             name={values.name}
             password={values.password}

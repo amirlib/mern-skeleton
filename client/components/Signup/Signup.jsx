@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import RedirectDialog from '../UI/dialogs/RedirectDialog';
 import { AuthContext } from '../../contexts/auth.context';
+import userValidator from '../../validators/user.validator';
 import { create } from '../../user/api-user';
 import SignupForm from './SignupForm';
 
@@ -60,6 +61,16 @@ const Signup = () => {
   };
 
   const signupClick = async () => {
+    if (error) setError('');
+
+    const validations = userValidator(values);
+
+    if (validations.error) {
+      setError(validations.error);
+
+      return;
+    }
+
     const res = await create(values);
 
     if (res.error) {

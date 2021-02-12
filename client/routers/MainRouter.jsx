@@ -4,7 +4,7 @@ import Route from './Route';
 import Home from '../components/Home/Home';
 import Login from '../components/Login/Login';
 import Menu from '../components/Menu/Menu';
-import EditProfilePage from '../components/Profile/EditProfilePage';
+import EditProfilePage from '../components/EditProfile/EditProfilePage';
 import ProfilePage from '../components/Profile/ProfilePage';
 import Signup from '../components/Signup/Signup';
 import UsersPage from '../components/Users/UsersPage';

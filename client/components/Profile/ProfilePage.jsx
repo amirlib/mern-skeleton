@@ -25,7 +25,6 @@ const ProfilePage = () => {
   const params = useParams();
   const classes = useStyles();
   const { verify } = useContext(AuthContext);
-  const [init, setInit] = useState(false);
   const [profile, setProfile] = useState(undefined);
 
   useEffect(() => {
@@ -43,12 +42,10 @@ const ProfilePage = () => {
       );
 
       if (res && res.error) {
-        setProfile(undefined);
+        setProfile({});
       } else {
         setProfile(res);
       }
-
-      setInit(true);
     };
 
     fetchProfile(signal);
@@ -58,18 +55,20 @@ const ProfilePage = () => {
     };
   }, [params.userId]);
 
+  const renderProfile = () => {
+    if (!profile) return null;
+
+    if (Object.keys(profile).length > 0) return <Profile profile={profile} />;
+
+    return <ProfileNotFound />;
+  };
+
   return (
     <Paper
       className={classes.root}
       elevation={4}
     >
-      {
-        !profile && init && <ProfileNotFound />
-      }
-
-      {
-        profile && init && <Profile profile={profile} />
-      }
+      {renderProfile()}
     </Paper>
   );
 };

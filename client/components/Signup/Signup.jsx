@@ -4,13 +4,13 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import RedirectDialog from '../UI/dialogs/RedirectDialog';
 import { AuthContext } from '../../contexts/auth.context';
 import { userSanitizer, userValidator } from '../../validators/user.validator';
 import { create } from '../../user/api-user';
 import SignupForm from './SignupForm';
+import TitleTypography from '../UI/typographies/TitleTypography';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -19,10 +19,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     marginTop: theme.spacing(5),
     paddingBottom: theme.spacing(2),
-  },
-  title: {
-    marginTop: theme.spacing(2),
-    color: theme.palette.openTitle,
   },
   submit: {
     margin: 'auto',
@@ -86,12 +82,7 @@ const Signup = () => {
     <div>
       <Card className={classes.card}>
         <CardContent>
-          <Typography
-            className={classes.title}
-            variant="h6"
-          >
-            Sign Up
-          </Typography>
+          <TitleTypography title="Sign Up" />
 
           <SignupForm
             email={values.email}

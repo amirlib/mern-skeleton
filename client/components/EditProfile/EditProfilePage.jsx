@@ -8,13 +8,14 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
 import SaveIcon from '@material-ui/icons/Save';
 import { makeStyles } from '@material-ui/core/styles';
 import { AuthContext } from '../../contexts/auth.context';
 import { read, update } from '../../user/api-user';
 import EditProfileForm from './EditProfileForm';
 import NoticeDialog from '../UI/dialogs/NoticeDialog';
+import TitleTypography from '../UI/typographies/TitleTypography';
+import { TitleType } from '../../style/types';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -30,10 +31,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     marginTop: theme.spacing(5),
     paddingBottom: theme.spacing(2),
-  },
-  title: {
-    margin: theme.spacing(2),
-    color: theme.palette.protectedTitle,
   },
 }));
 
@@ -130,12 +127,10 @@ const EditProfilePage = () => {
     <div>
       <Card className={classes.card}>
         <CardContent>
-          <Typography
-            className={classes.title}
-            variant="h6"
-          >
-            Edit Profile
-          </Typography>
+          <TitleTypography
+            title="Edit Profile"
+            type={TitleType.Protected}
+          />
 
           <EditProfileForm
             email={values.email}

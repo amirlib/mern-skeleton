@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import TitleTypography from '../UI/typographies/TitleTypography';
 import unicornbikeImg from '../../assets/images/unicornbike.jpg';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     padding: `${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(2)}px`,
-    color: theme.palette.openTitle,
   },
   media: {
     minHeight: 400,
@@ -26,12 +26,10 @@ const Home = () => {
 
   return (
     <Card className={classes.card}>
-      <Typography
-        variant="h6"
-        className={classes.title}
-      >
-        Home Page
-      </Typography>
+      <TitleTypography
+        title="Home Page"
+        style={classes.title}
+      />
 
       <CardMedia
         className={classes.media}

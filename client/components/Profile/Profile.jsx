@@ -11,31 +11,21 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Person from '@material-ui/icons/Person';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import DeleteProfile from './DeleteProfile';
+import TitleTypography from '../UI/typographies/TitleTypography';
 import { AuthContext } from '../../contexts/auth.context';
-
-const useStyles = makeStyles((theme) => ({
-  title: {
-    marginTop: theme.spacing(3),
-    color: theme.palette.protectedTitle,
-  },
-}));
+import { TitleType } from '../../style/types';
 
 const Profile = (props) => {
   const { profile } = props;
   const { user } = useContext(AuthContext);
-  const classes = useStyles();
 
   return (
     <>
-      <Typography
-        className={classes.title}
-        variant="h6"
-      >
-        Profile
-      </Typography>
+      <TitleTypography
+        title="Profile"
+        type={TitleType.Protected}
+      />
 
       <List dense>
         <ListItem>

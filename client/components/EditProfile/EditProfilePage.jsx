@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Redirect, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditProfilePage = () => {
+  const history = useHistory();
   const params = useParams();
   const classes = useStyles();
   const { user, verify } = useContext(AuthContext);
@@ -38,7 +39,7 @@ const EditProfilePage = () => {
     const abortController = new AbortController();
     const { signal } = abortController;
 
-    const fetchProfile = async (signalToAbort) => {
+    const fetchProfileAsync = async (signalToAbort) => {
       const isVerified = await verify();
 
       if (!isVerified) return;
@@ -51,10 +52,6 @@ const EditProfilePage = () => {
       if (res && res.error) {
         setError(res.error);
       } else {
-        if (user && user._id && user._id !== res._id) {
-          return <Redirect to={`/user/edit/${user._id}`} />;
-        }
-
         setError('');
         setValues({
           ...values,
@@ -64,7 +61,7 @@ const EditProfilePage = () => {
       }
     };
 
-    fetchProfile(signal);
+    fetchProfileAsync(signal);
 
     return function cleanup() {
       abortController.abort();
@@ -72,7 +69,7 @@ const EditProfilePage = () => {
   }, [params.userId]);
 
   if (params.userId && params.userId !== user._id.toString()) {
-    return <Redirect to={`/user/edit/${user._id}`} />;
+    history.push(`/user/edit/${user._id}`);
   }
 
   const handleSaveClick = async () => {

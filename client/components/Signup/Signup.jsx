@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 import RedirectDialog from '../UI/dialogs/RedirectDialog';
 import { AuthContext } from '../../contexts/auth.context';
-import { userSanitizer, userValidator } from '../../validators/user.validator';
+import { userSanitizer, userValidator } from '../../validators/signup.validator';
 import { create } from '../../user/api-user';
 import SignupForm from './SignupForm';
 import TitleTypography from '../UI/typographies/TitleTypography';

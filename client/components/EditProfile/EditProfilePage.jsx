@@ -1,17 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Redirect, useHistory, useParams } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import SaveIcon from '@material-ui/icons/Save';
 import { makeStyles } from '@material-ui/core/styles';
 import { AuthContext } from '../../contexts/auth.context';
 import { read, update } from '../../user/api-user';
+import EditProfileActions from './EditProfileActions';
 import EditProfileForm from './EditProfileForm';
 import NoticeDialog from '../UI/dialogs/NoticeDialog';
 import TitleTypography from '../UI/typographies/TitleTypography';
@@ -25,20 +20,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(5),
     paddingBottom: theme.spacing(2),
   },
-  list: {
-    maxWidth: 400,
-    margin: 'auto',
-    textAlign: 'center',
-    marginTop: theme.spacing(5),
-    paddingBottom: theme.spacing(2),
-  },
 }));
 
 const EditProfilePage = () => {
-  const history = useHistory();
   const params = useParams();
   const classes = useStyles();
-  const { logoutAll, user, verify } = useContext(AuthContext);
+  const { user, verify } = useContext(AuthContext);
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState({
@@ -88,13 +75,7 @@ const EditProfilePage = () => {
     return <Redirect to={`/user/edit/${user._id}`} />;
   }
 
-  const logoutAllClick = async () => {
-    await logoutAll();
-
-    return history.push('/');
-  };
-
-  const saveClick = async () => {
+  const handleSaveClick = async () => {
     const data = {
       name: values.name || undefined,
       email: values.email || undefined,
@@ -140,35 +121,7 @@ const EditProfilePage = () => {
             password={values.password}
           />
 
-          <List
-            className={classes.list}
-            component="nav"
-          >
-            <Divider />
-
-            <ListItem
-              button
-              onClick={logoutAllClick}
-            >
-              <ListItemIcon />
-              <ListItemText primary="Logout from all devices" />
-            </ListItem>
-
-            <Divider />
-
-            <ListItem
-              button
-              onClick={saveClick}
-            >
-              <ListItemIcon>
-                <SaveIcon />
-              </ListItemIcon>
-
-              <ListItemText primary="Save Changes" />
-            </ListItem>
-
-            <Divider />
-          </List>
+          <EditProfileActions onSave={handleSaveClick} />
         </CardContent>
       </Card>
 

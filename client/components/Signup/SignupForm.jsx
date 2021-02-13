@@ -7,24 +7,18 @@ import ErrorTypography from '../UI/typographies/ErrorTypography';
 import FormContext from '../../contexts/formContext';
 
 const SignupForm = (props) => {
-  const {
-    email,
-    error,
-    handleChange,
-    name,
-    password,
-  } = props;
+  const { error, handleChange, values } = props;
 
   return (
     <>
       <FormContext.Provider value={{ handleChange }}>
-        <NameField value={name} />
+        <NameField value={values.name} />
         <br />
 
-        <EmailField value={email} />
+        <EmailField value={values.email} />
         <br />
 
-        <PasswordField value={password} />
+        <PasswordField value={values.password} />
       </FormContext.Provider>
 
       <ErrorTypography errorText={error} />
@@ -33,18 +27,22 @@ const SignupForm = (props) => {
 };
 
 SignupForm.propTypes = {
-  email: PropTypes.string,
   error: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
-  name: PropTypes.string,
-  password: PropTypes.string,
+  values: PropTypes.shape({
+    email: PropTypes.string,
+    name: PropTypes.string,
+    password: PropTypes.string,
+  }),
 };
 
 SignupForm.defaultProps = {
-  email: '',
   error: '',
-  name: '',
-  password: '',
+  values: {
+    email: '',
+    name: '',
+    password: '',
+  },
 };
 
 export default SignupForm;

@@ -85,11 +85,9 @@ const Signup = () => {
           <TitleTypography title="Sign Up" />
 
           <SignupForm
-            email={values.email}
             error={error}
             handleChange={handleChange}
-            name={values.name}
-            password={values.password}
+            values={values}
           />
         </CardContent>
         <br />

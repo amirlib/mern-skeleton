@@ -11,6 +11,7 @@ import EditProfileForm from './EditProfileForm';
 import NoticeDialog from '../UI/dialogs/NoticeDialog';
 import TitleTypography from '../UI/typographies/TitleTypography';
 import { TitleType } from '../../style/types';
+import { profileSanitizer, profileValidator } from '../../validators/profile.validator';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -73,15 +74,20 @@ const EditProfilePage = () => {
   }
 
   const handleSaveClick = async () => {
-    const data = {
-      name: values.name || undefined,
-      email: values.email || undefined,
-      password: values.password || undefined,
-    };
+    if (error) setError('');
+
+    const sanitizedValues = profileSanitizer(values);
+    const validations = profileValidator(sanitizedValues);
+
+    if (validations.error) {
+      setError(validations.error);
+
+      return;
+    }
 
     const res = await update(
       params.userId,
-      data,
+      sanitizedValues,
     );
 
     if (res && res.error) {

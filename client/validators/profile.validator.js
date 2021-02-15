@@ -1,13 +1,13 @@
 import validator from 'validator';
 import validate from './validator';
 
-const userSanitizer = (values) => ({
-  email: validator.escape(values.email.trim()),
-  name: validator.escape(values.name.trim()),
-  password: validator.escape(values.password.trim()),
+const profileSanitizer = (values) => ({
+  email: validator.escape(values.email.trim()) || undefined,
+  name: validator.escape(values.name.trim()) || undefined,
+  password: validator.escape(values.password.trim()) || undefined,
 });
 
-const userValidator = (values) => {
+const profileValidator = (values) => {
   const emailRes = validate(
     'Email',
     values.email,
@@ -15,7 +15,7 @@ const userValidator = (values) => {
       isEmail: true,
       maxlength: 255,
       minlength: 7,
-      required: true,
+      required: false,
     },
   );
 
@@ -27,7 +27,7 @@ const userValidator = (values) => {
     {
       maxlength: 255,
       minlength: 2,
-      required: true,
+      required: false,
     },
   );
 
@@ -39,7 +39,7 @@ const userValidator = (values) => {
     {
       maxlength: 20,
       minlength: 5,
-      required: true,
+      required: false,
     },
   );
 
@@ -48,4 +48,4 @@ const userValidator = (values) => {
   return { valid: true };
 };
 
-export { userSanitizer, userValidator };
+export { profileSanitizer, profileValidator };

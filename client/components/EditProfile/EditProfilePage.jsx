@@ -117,11 +117,9 @@ const EditProfilePage = () => {
           />
 
           <EditProfileForm
-            email={values.email}
             error={error}
             handleChange={handleChange}
-            name={values.name}
-            password={values.password}
+            values={values}
           />
 
           <EditProfileActions onSave={handleSaveClick} />

@@ -8,23 +8,21 @@ import FormContext from '../../contexts/formContext';
 
 const EditProfileForm = (props) => {
   const {
-    email,
     error,
     handleChange,
-    name,
-    password,
+    values,
   } = props;
 
   return (
     <>
       <FormContext.Provider value={{ handleChange }}>
-        <NameField value={name} />
+        <NameField value={values.name} />
         <br />
 
-        <EmailField value={email} />
+        <EmailField value={values.email} />
         <br />
 
-        <PasswordField value={password} />
+        <PasswordField value={values.password} />
       </FormContext.Provider>
 
       <ErrorTypography errorText={error} />
@@ -33,18 +31,22 @@ const EditProfileForm = (props) => {
 };
 
 EditProfileForm.propTypes = {
-  email: PropTypes.string,
   error: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
-  name: PropTypes.string,
-  password: PropTypes.string,
+  values: PropTypes.shape({
+    email: PropTypes.string,
+    name: PropTypes.string,
+    password: PropTypes.string,
+  }),
 };
 
 EditProfileForm.defaultProps = {
-  email: '',
   error: '',
-  name: '',
-  password: '',
+  values: {
+    email: '',
+    name: '',
+    password: '',
+  },
 };
 
 export default EditProfileForm;

@@ -19,6 +19,8 @@ const CostumeTextField = (props) => {
     helperText,
     id,
     label,
+    multiline,
+    rows,
     type,
     value,
   } = props;
@@ -30,8 +32,10 @@ const CostumeTextField = (props) => {
       id={id}
       label={label}
       margin="normal"
+      multiline={multiline}
       name={id}
       onChange={handleChange}
+      rows={rows}
       type={type}
       value={value}
     />
@@ -42,12 +46,16 @@ CostumeTextField.propTypes = {
   helperText: PropTypes.string,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  multiline: PropTypes.bool,
+  rows: PropTypes.number,
   type: PropTypes.string,
   value: PropTypes.string,
 };
 
 CostumeTextField.defaultProps = {
   helperText: '',
+  multiline: false,
+  rows: 1,
   type: 'text',
   value: '',
 };

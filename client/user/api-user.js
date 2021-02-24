@@ -43,7 +43,6 @@ const read = async (userId, signal) => {
         credentials: 'include',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
         },
         method: 'GET',
         signal,

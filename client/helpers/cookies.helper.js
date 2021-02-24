@@ -8,13 +8,13 @@ const setCookie = (name, value, options = {}) => {
 
   let updatedCookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
 
-  for (const optionKey in options) {
-    updatedCookie += `; ${optionKey}`;
+  const pairs = Object.entries(options);
 
-    const optionValue = options[optionKey];
+  pairs.forEach((pair) => {
+    updatedCookie += `; ${pair[0]}`;
 
-    if (optionValue !== true) updatedCookie += `=${optionValue}`;
-  }
+    if (!pair[1]) updatedCookie += `=${pair[1]}`;
+  });
 
   document.cookie = updatedCookie;
 };

@@ -1,36 +1,38 @@
-import validator from 'validator';
+import { validateImageFileBrowser } from '../../validators/file.validator';
+import { validateTextField } from '../../validators/textField.validator';
+import InvalidFileError from '../../validators/Errors/InvalidFileError';
+import InvalidTextField from '../../validators/Errors/InvalidTextField';
 
-const defaultOptions = {
-  isEmail: false,
-  maxlength: undefined,
-  minlength: 0,
-  required: false,
+const validate = (pair, attributes) => {
+  if (pair[0] === 'profilePicture') {
+    validateImageFileBrowser(
+      pair[1], // value
+      attributes,
+    );
+  } else {
+    validateTextField(
+      pair[1], // value
+      attributes,
+    );
+  }
 };
 
-const validate = (fieldName, value, options = defaultOptions) => {
-  if (!value) {
-    if (options.required) {
-      return { error: `${fieldName} is required` };
+const validateValues = (values, model) => {
+  const pairs = Object.entries(values);
+
+  try {
+    pairs.forEach((pair) => {
+      validate(pair, model[pair[0]]);
+    });
+
+    return { isValid: true };
+  } catch (err) {
+    if (err instanceof InvalidFileError || err instanceof InvalidTextField) {
+      return { error: `${err.fieldName} ${err.message}` };
     }
 
-    return { valid: true };
+    return { error: 'Error has occurred' };
   }
-
-  if (!validator.isLength(
-    value,
-    {
-      max: options.maxlength,
-      min: options.minlength,
-    },
-  )) {
-    return { error: `${fieldName} must be between ${options.minlength} and ${options.maxlength} characters` };
-  }
-
-  if (options.isEmail) {
-    if (!validator.isEmail(value)) return { error: `${fieldName} is not valid` };
-  }
-
-  return { valid: true };
 };
 
-export default validate;
+export default validateValues;

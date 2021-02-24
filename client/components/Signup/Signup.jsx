@@ -10,7 +10,7 @@ import RedirectDialog from '../UI/dialogs/RedirectDialog';
 import TitleTypography from '../UI/typographies/TitleTypography';
 import { AuthContext } from '../../contexts/auth.context';
 import { create } from '../../user/user.api';
-import { userSanitizer, userValidator } from '../../validators/signup.validator';
+import { sanitizeValues, validateUser } from '../../validators/values.validator';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -59,8 +59,8 @@ const Signup = () => {
   const signupClick = async () => {
     if (error) setError('');
 
-    const sanitizedValues = userSanitizer(values);
-    const validations = userValidator(sanitizedValues);
+    const sanitizedValues = sanitizeValues(values);
+    const validations = validateUser(sanitizedValues);
 
     if (validations.error) {
       setError(validations.error);

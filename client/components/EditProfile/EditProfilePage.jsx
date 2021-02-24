@@ -11,7 +11,7 @@ import TitleTypography from '../UI/typographies/TitleTypography';
 import { AuthContext } from '../../contexts/auth.context';
 import { TitleType } from '../../style/types';
 import { read, update } from '../../user/user.api';
-import { profileSanitizer, profileValidator } from '../../validators/profile.validator';
+import { sanitizeValues, validateProfile } from '../../validators/values.validator';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -76,8 +76,8 @@ const EditProfilePage = () => {
   const handleSaveClick = async () => {
     if (error) setError('');
 
-    const sanitizedValues = profileSanitizer(values);
-    const validations = profileValidator(sanitizedValues);
+    const sanitizedValues = sanitizeValues(values);
+    const validations = validateProfile(sanitizedValues);
 
     if (validations.error) {
       setError(validations.error);

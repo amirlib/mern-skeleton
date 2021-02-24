@@ -70,7 +70,7 @@ const Signup = () => {
 
     const res = await create(values);
 
-    if (res.error) {
+    if (res && res.error) {
       setError(res.error);
     } else {
       setError('');

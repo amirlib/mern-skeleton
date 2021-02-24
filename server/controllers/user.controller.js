@@ -24,7 +24,7 @@ const create = async (req, res) => {
 
     return res
       .status(201)
-      .json({ message: 'Register success' });
+      .json(null);
   } catch (err) {
     return res
       .status(400)

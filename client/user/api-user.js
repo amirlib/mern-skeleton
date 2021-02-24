@@ -3,8 +3,8 @@ const create = async (user) => {
     const response = await fetch(
       '/api/users/',
       {
-        method: 'POST',
         body: JSON.stringify(user),
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',

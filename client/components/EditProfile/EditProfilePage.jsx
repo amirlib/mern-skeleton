@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
-import { AuthContext } from '../../contexts/auth.context';
-import { read, update } from '../../user/api-user';
 import EditProfileActions from './EditProfileActions';
 import EditProfileForm from './EditProfileForm';
 import NoticeDialog from '../UI/dialogs/NoticeDialog';
 import TitleTypography from '../UI/typographies/TitleTypography';
+import { AuthContext } from '../../contexts/auth.context';
 import { TitleType } from '../../style/types';
+import { read, update } from '../../user/user.api';
 import { profileSanitizer, profileValidator } from '../../validators/profile.validator';
 
 const useStyles = makeStyles((theme) => ({

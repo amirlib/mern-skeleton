@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Redirect } from 'react-router-dom';
 import { clear } from '../../auth/auth-helper';
 import { AuthContext } from '../../contexts/auth.context';
-import { remove } from '../../user/api-user';
+import { remove } from '../../user/user.api';
 
 const DeleteProfile = (props) => {
   const { setEmptyUser } = useContext(AuthContext);

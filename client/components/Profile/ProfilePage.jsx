@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Profile from './Profile';
 import ProfileNotFound from './ProfileNotFound';
 import { AuthContext } from '../../contexts/auth.context';
-import { read } from '../../user/api-user';
+import { read } from '../../user/user.api';
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({

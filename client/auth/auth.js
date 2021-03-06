@@ -36,7 +36,7 @@ const verify = async () => {
     } else {
       const local = get();
 
-      if (local._id !== res.user._id) save({ _id: res.user._id });
+      if (local._id !== res._id) save({ _id: res._id });
     }
 
     return res;

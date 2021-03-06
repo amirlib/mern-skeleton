@@ -55,7 +55,7 @@ const AuthProvider = (props) => {
       return false;
     }
 
-    if (res.user._id.toString() !== user._id.toString()) setUser(res);
+    if (res._id.toString() !== user._id.toString()) setUser(res);
 
     return true;
   };

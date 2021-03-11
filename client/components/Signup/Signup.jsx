@@ -9,8 +9,8 @@ import SignupForm from './SignupForm';
 import RedirectDialog from '../UI/dialogs/RedirectDialog';
 import TitleTypography from '../UI/typographies/TitleTypography';
 import { AuthContext } from '../../contexts/auth.context';
+import { sanitizeValues, validateUser } from '../../helpers/validator.helper';
 import { create } from '../../user/user.api';
-import { sanitizeValues, validateUser } from '../../validators/values.validator';
 
 const useStyles = makeStyles((theme) => ({
   card: {

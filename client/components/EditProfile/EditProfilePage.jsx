@@ -9,9 +9,9 @@ import EditProfileForm from './EditProfileForm';
 import NoticeDialog from '../UI/dialogs/NoticeDialog';
 import TitleTypography from '../UI/typographies/TitleTypography';
 import { AuthContext } from '../../contexts/auth.context';
+import { sanitizeValues, validateProfile } from '../../helpers/validator.helper';
 import { TitleType } from '../../style/types';
 import { read, update } from '../../user/user.api';
-import { sanitizeValues, validateProfile } from '../../validators/values.validator';
 
 const useStyles = makeStyles((theme) => ({
   card: {

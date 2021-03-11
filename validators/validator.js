@@ -1,11 +1,11 @@
-import { validateImageFileBrowser } from './file.validator';
+import { validateFileBrowser } from './file.validator';
 import { validateTextField } from './textField.validator';
 import InvalidFileError from './Errors/InvalidFileError';
 import InvalidTextField from './Errors/InvalidTextField';
 
 const validate = (value, attributes) => {
   if (attributes.type === 'file') {
-    validateImageFileBrowser(
+    validateFileBrowser(
       value,
       attributes,
     );

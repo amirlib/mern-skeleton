@@ -17,9 +17,7 @@ const login = async (user) => {
 
 const logout = async (isLogoutFromAll = false) => {
   try {
-    return await logoutRequest(isLogoutFromAll);
-  } catch (err) {
-    return undefined;
+    await logoutRequest(isLogoutFromAll);
   } finally {
     clear();
   }

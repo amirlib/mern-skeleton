@@ -7,7 +7,7 @@ const login = async (req, res) => {
 
     if (!user) {
       return res
-        .status('401')
+        .status(401)
         .json({ error: 'Account not exists or Email and Password do not match' });
     }
 
@@ -15,7 +15,7 @@ const login = async (req, res) => {
 
     if (!isAuthenticated) {
       return res
-        .status('401')
+        .status(401)
         .send({ error: 'Account not exists or Email and Password do not match' });
     }
 
@@ -32,7 +32,7 @@ const login = async (req, res) => {
       .json({ _id: user._id });
   } catch (err) {
     return res
-      .status('401')
+      .status(401)
       .json({ error: 'Could not login' });
   }
 };
@@ -47,11 +47,15 @@ const logout = async (req, res) => {
 
     res.clearCookie('t');
 
-    return res.status(200).json({ message: 'logged out' });
+    return res
+      .status(200)
+      .json();
   } catch (e) {
     console.log(e);
 
-    return res.status(500).send();
+    return res
+      .status(500)
+      .send();
   }
 };
 
@@ -63,18 +67,26 @@ const logoutAll = async (req, res) => {
 
     res.clearCookie('t');
 
-    return res.status(200).json({ message: 'logged out' });
+    return res
+      .status(200)
+      .json();
   } catch (e) {
     console.log(e);
 
-    return res.status(500).send();
+    return res
+      .status(500)
+      .send();
   }
 };
 
 const requireLogin = async (req, res, next) => {
   const user = await getUserByCookies(req.cookies);
 
-  if (Object.keys(user).length === 0) return res.status('403').send({ error: 'User is not authorized' });
+  if (Object.keys(user).length === 0) {
+    return res
+      .status(403)
+      .send({ error: 'User is not authorized' });
+  }
 
   req.profile = user;
 
@@ -86,7 +98,11 @@ const hasAuthorization = (req, res, next) => {
     && req.user
     && req.profile._id.toString() === req.user._id.toString();
 
-  if (!authorized) return res.status('403').json({ error: 'User is not authorized' });
+  if (!authorized) {
+    return res
+      .status(403)
+      .json({ error: 'User is not authorized' });
+  }
 
   return next();
 };
@@ -94,9 +110,15 @@ const hasAuthorization = (req, res, next) => {
 const verify = async (req, res) => {
   const user = await getUserByCookies(req.cookies);
 
-  if (Object.keys(user).length === 0) return res.status(422).send({ error: 'User not found' });
+  if (Object.keys(user).length === 0) {
+    return res
+      .status(422)
+      .send({ error: 'User not found' });
+  }
 
-  return res.status(200).json({ _id: user._id });
+  return res
+    .status(200)
+    .json({ _id: user._id });
 };
 
 export {

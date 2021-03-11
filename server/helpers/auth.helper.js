@@ -5,7 +5,6 @@ const getUserByCookies = async (cookies) => {
   if (!cookies || !cookies.t) return {};
 
   const decoded = jwt.verify(cookies.t, process.env.JWT_SECRET);
-
   const user = await User.findById(decoded.id);
 
   if (!user) return {};

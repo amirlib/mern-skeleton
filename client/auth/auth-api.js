@@ -18,15 +18,13 @@ const loginRequest = async (user) => {
 const logoutRequest = async (isLogoutFromAll) => {
   const path = isLogoutFromAll ? 'logoutAll' : 'logout';
 
-  const response = await fetch(
+  await fetch(
     `/auth/${path}/`,
     {
       credentials: 'include',
       method: 'GET',
     },
   );
-
-  return await response.json();
 };
 
 const verifyRequest = async () => {

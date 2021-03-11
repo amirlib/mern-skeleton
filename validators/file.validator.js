@@ -72,7 +72,7 @@ const validateFileBrowser = (file, attributes) => {
   }
 };
 
-const validateImageFileMulter = (file, attributes) => {
+const validateFileMulter = (file, attributes) => {
   const { fieldName, options = defaultOptions } = attributes;
   const {
     extensions,
@@ -88,4 +88,4 @@ const validateImageFileMulter = (file, attributes) => {
   }
 };
 
-export { validateFileBrowser, validateImageFileMulter };
+export { validateFileBrowser, validateFileMulter };

@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import path from 'path';
 import config from './config/config';
+import { multerErrorHandling } from './config/multer.config';
 import authRoutes from './routes/auth.routes';
 import clientRoutes from './routes/client.routes';
 import userRoutes from './routes/user.routes';
@@ -25,5 +26,7 @@ app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')));
 app.use('/', authRoutes);
 app.use('/', userRoutes);
 app.use('/', clientRoutes);
+
+app.use(multerErrorHandling);
 
 export default app;

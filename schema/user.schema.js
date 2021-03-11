@@ -1,4 +1,4 @@
-const userModel = {
+const userSchema = {
   email: {
     fieldName: 'Email',
     options: {
@@ -26,4 +26,4 @@ const userModel = {
   },
 };
 
-export default userModel;
+export default userSchema;

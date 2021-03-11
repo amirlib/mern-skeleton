@@ -1,6 +1,6 @@
 import validator from 'validator';
 import validateValues from './validator';
-import userModel from '../user/user.model';
+import userSchema from '../../schema/user.schema';
 
 const sanitize = (key, value) => validator.escape(value.trim());
 
@@ -25,32 +25,32 @@ const sanitizeValues = (values) => {
 };
 
 const profileModel = {
-  ...userModel,
+  ...userSchema,
   email: {
-    ...userModel.email,
+    ...userSchema.email,
     options: {
-      ...userModel.email.options,
+      ...userSchema.email.options,
       required: false,
     },
   },
   name: {
-    ...userModel.name,
+    ...userSchema.name,
     options: {
-      ...userModel.name.options,
+      ...userSchema.name.options,
       required: false,
     },
   },
   password: {
-    ...userModel.password,
+    ...userSchema.password,
     options: {
-      ...userModel.password.options,
+      ...userSchema.password.options,
       required: false,
     },
   },
 };
 
 const validateProfile = (values) => validateValues(values, profileModel);
-const validateUser = (values) => validateValues(values, userModel);
+const validateUser = (values) => validateValues(values, userSchema);
 
 export {
   sanitizeValues,

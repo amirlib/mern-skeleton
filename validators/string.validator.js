@@ -1,5 +1,5 @@
 import validator from 'validator';
-import InvalidTextField from './Errors/InvalidTextField';
+import InvalidFieldValueError from './Errors/InvalidFieldValueError';
 
 const isValidEmail = (value) => {
   if (validator.isEmail(value)) return true;
@@ -26,7 +26,7 @@ const defaultOptions = {
   required: false,
 };
 
-const validateTextField = (value, attributes) => {
+const validateString = (value, attributes) => {
   const { fieldName, options = defaultOptions } = attributes;
   const {
     isEmail,
@@ -36,18 +36,18 @@ const validateTextField = (value, attributes) => {
   } = options;
 
   if (!value) {
-    if (required) throw new InvalidTextField('ERR_FIELD_EMPTY', fieldName);
+    if (required) throw new InvalidFieldValueError('ERR_FIELD_EMPTY', fieldName);
 
     return;
   }
 
   if (!isValidLength(value, maxlength, minlength)) {
-    throw new InvalidTextField('ERR_FIELD_LENGTH', fieldName);
+    throw new InvalidFieldValueError('ERR_FIELD_LENGTH', fieldName);
   }
 
   if (isEmail && !isValidEmail(value)) {
-    throw new InvalidTextField('ERR_INVALID_EMAIL', fieldName);
+    throw new InvalidFieldValueError('ERR_INVALID_EMAIL', fieldName);
   }
 };
 
-export { validateTextField };
+export { validateString };

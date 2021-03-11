@@ -1,7 +1,7 @@
 import { validateFileBrowser } from './file.validator';
-import { validateTextField } from './textField.validator';
+import { validateString } from './string.validator';
 import InvalidFileError from './Errors/InvalidFileError';
-import InvalidTextField from './Errors/InvalidTextField';
+import InvalidFieldValueError from './Errors/InvalidFieldValueError';
 
 const validate = (value, attributes) => {
   if (attributes.type === 'file') {
@@ -10,7 +10,7 @@ const validate = (value, attributes) => {
       attributes,
     );
   } else {
-    validateTextField(
+    validateString(
       value,
       attributes,
     );
@@ -27,7 +27,7 @@ const validateValues = (values, schema) => {
 
     return { isValid: true };
   } catch (err) {
-    if (err instanceof InvalidFileError || err instanceof InvalidTextField) {
+    if (err instanceof InvalidFileError || err instanceof InvalidFieldValueError) {
       return { error: `${err.fieldName} ${err.message}` };
     }
 

@@ -4,17 +4,17 @@ const errorMessages = {
   ERR_INVALID_EMAIL: 'value not a valid email address',
 };
 
-class InvalidTextField extends Error {
+class InvalidFieldValueError extends Error {
   constructor(code, fieldName = '') {
     super();
 
     this.code = code;
     this.fieldName = fieldName;
     this.message = errorMessages[code];
-    this.name = 'InvalidTextField';
+    this.name = 'InvalidFieldValueError';
 
-    Error.captureStackTrace(this, InvalidTextField);
+    Error.captureStackTrace(this, InvalidFieldValueError);
   }
 }
 
-export default InvalidTextField;
+export default InvalidFieldValueError;

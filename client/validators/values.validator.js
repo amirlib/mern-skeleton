@@ -1,5 +1,5 @@
 import validator from 'validator';
-import validateValues from './validator';
+import validateValues from '../../validators/validator';
 import userSchema from '../../schema/user.schema';
 
 const sanitize = (key, value) => validator.escape(value.trim());

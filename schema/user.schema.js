@@ -1,3 +1,5 @@
+// Available types: file, string
+
 const userSchema = {
   email: {
     fieldName: 'Email',
@@ -7,6 +9,7 @@ const userSchema = {
       minlength: 7,
       required: true,
     },
+    type: 'string',
   },
   name: {
     fieldName: 'Name',
@@ -15,6 +18,7 @@ const userSchema = {
       minlength: 2,
       required: true,
     },
+    type: 'string',
   },
   password: {
     fieldName: 'Password',
@@ -23,6 +27,7 @@ const userSchema = {
       minlength: 5,
       required: true,
     },
+    type: 'string',
   },
 };
 

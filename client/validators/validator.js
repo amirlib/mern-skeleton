@@ -3,26 +3,26 @@ import { validateTextField } from '../../validators/textField.validator';
 import InvalidFileError from '../../validators/Errors/InvalidFileError';
 import InvalidTextField from '../../validators/Errors/InvalidTextField';
 
-const validate = (pair, attributes) => {
-  if (pair[0] === 'profilePicture') {
+const validate = (value, attributes) => {
+  if (attributes.type === 'file') {
     validateImageFileBrowser(
-      pair[1], // value
+      value,
       attributes,
     );
   } else {
     validateTextField(
-      pair[1], // value
+      value,
       attributes,
     );
   }
 };
 
-const validateValues = (values, model) => {
+const validateValues = (values, schema) => {
   const pairs = Object.entries(values);
 
   try {
     pairs.forEach((pair) => {
-      validate(pair, model[pair[0]]);
+      validate(pair[1], schema[pair[0]]);
     });
 
     return { isValid: true };

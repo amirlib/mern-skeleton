@@ -7,16 +7,16 @@ const UserSchema = new mongoose.Schema(
   {
     email: {
       lowercase: true,
-      match: [/.+@.+\..+/, 'Please fill a valid email address'],
-      maxlength: [255, 'Email is too long'],
-      minlength: [7, 'Email is too short'],
+      match: [/.+@.+\..+/, 'Email value not a valid email address'],
+      maxlength: [255, 'Email length is not between the valid range'],
+      minlength: [7, 'Email length is not between the valid range'],
       required: 'Email is required',
       trim: true,
       type: String,
     },
     name: {
-      maxlength: [255, 'Name is too long'],
-      minlength: [2, 'Name is too short'],
+      maxlength: [255, 'Name length is not between the valid range'],
+      minlength: [2, 'Name length is not between the valid range'],
       required: 'Name is required',
       trim: true,
       type: String,

@@ -1,7 +1,7 @@
 const errorMessages = {
   ERR_FIELD_EMPTY: 'field is required',
   ERR_FIELD_LENGTH: 'field length is not between the valid range',
-  ERR_INVALID_EMAIL: 'value not a valid email address',
+  ERR_INVALID_EMAIL: 'address value is invalid',
 };
 
 class InvalidFieldValueError extends Error {

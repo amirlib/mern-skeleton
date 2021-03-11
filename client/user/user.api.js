@@ -71,17 +71,13 @@ const remove = async (id) => {
   }
 };
 
-const update = async (id, user) => {
+const update = async (id, profile) => {
   try {
     const response = await fetch(
       `/api/users/${id}`,
       {
-        body: JSON.stringify(user),
+        body: profile,
         credentials: 'include',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
         method: 'PATCH',
       },
     );

@@ -9,6 +9,7 @@ import EditProfileForm from './EditProfileForm';
 import NoticeDialog from '../UI/dialogs/NoticeDialog';
 import TitleTypography from '../UI/typographies/TitleTypography';
 import { AuthContext } from '../../contexts/auth.context';
+import { createProfileFormData } from '../../helpers/formData.helper';
 import { sanitizeValues, validateProfile } from '../../helpers/validator.helper';
 import { TitleType } from '../../style/types';
 import { read, update } from '../../user/user.api';
@@ -85,9 +86,10 @@ const EditProfilePage = () => {
       return;
     }
 
+    const profileData = createProfileFormData(sanitizedValues);
     const res = await update(
       params.userId,
-      sanitizedValues,
+      profileData,
     );
 
     if (res && res.error) {

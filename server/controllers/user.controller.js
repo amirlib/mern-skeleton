@@ -1,4 +1,3 @@
-import extend from 'lodash/extend';
 import User from '../models/user.model';
 import { getErrorMessage } from '../helpers/dbErrorHandler';
 
@@ -61,9 +60,9 @@ const remove = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    let { user } = req;
+    const { user } = req;
 
-    user = extend(user, req.body);
+    user.updateValues(req.body);
 
     await user.save();
 

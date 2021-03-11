@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
@@ -70,6 +71,19 @@ UserSchema.methods.toJSON = function () {
   delete userObject.tokens;
 
   return userObject;
+};
+
+UserSchema.methods.updateValues = function (values) {
+  if (!values) return;
+
+  const user = this;
+  const pairs = Object.entries(values);
+
+  pairs.forEach((pair) => {
+    if (pair[0] !== 'profilePicture') {
+      user[pair[0]] = pair[1];
+    }
+  });
 };
 
 UserSchema.pre('save', async function (next) {

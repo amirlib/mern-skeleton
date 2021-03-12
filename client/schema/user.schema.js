@@ -42,4 +42,29 @@ const userSchema = {
   },
 };
 
-export default userSchema;
+const profileSchema = {
+  ...userSchema,
+  email: {
+    ...userSchema.email,
+    options: {
+      ...userSchema.email.options,
+      required: false,
+    },
+  },
+  name: {
+    ...userSchema.name,
+    options: {
+      ...userSchema.name.options,
+      required: false,
+    },
+  },
+  password: {
+    ...userSchema.password,
+    options: {
+      ...userSchema.password.options,
+      required: false,
+    },
+  },
+};
+
+export { profileSchema, userSchema };

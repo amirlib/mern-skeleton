@@ -1,14 +1,14 @@
-import userSchema from '../schema/user.schema';
+import { userSchema } from '../schema/user.schema';
 
-const createFormData = (values, model) => {
+const createFormData = (values, schema) => {
   const data = new FormData();
   const pairs = Object.entries(values);
 
   pairs.forEach((pair) => {
     if (pair[1]
-      || (model
-        && model[pair[0]]
-        && !model[pair[0]].options.required)
+      || (schema
+        && schema[pair[0]]
+        && !schema[pair[0]].options.required)
     ) data.append(pair[0], pair[1]);
   });
 

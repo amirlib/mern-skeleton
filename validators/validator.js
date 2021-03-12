@@ -17,15 +17,15 @@ const validate = (value, attributes) => {
   }
 };
 
-const validateValues = (values, schema) => {
-  const pairs = Object.entries(values);
+const validateValues = (sanitizedValues, schema) => {
+  const pairs = Object.entries(sanitizedValues);
 
   try {
     pairs.forEach((pair) => {
       validate(pair[1], schema[pair[0]]);
     });
 
-    return { isValid: true };
+    return { sanitizedValues };
   } catch (err) {
     if (err instanceof InvalidFileError || err instanceof InvalidFieldValueError) {
       return { error: `${err.fieldName} ${err.message}` };
@@ -35,4 +35,4 @@ const validateValues = (values, schema) => {
   }
 };
 
-export default validateValues;
+export { validateValues };

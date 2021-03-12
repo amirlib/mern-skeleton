@@ -9,7 +9,6 @@ import SignupForm from './SignupForm';
 import RedirectDialog from '../UI/dialogs/RedirectDialog';
 import TitleTypography from '../UI/typographies/TitleTypography';
 import { AuthContext } from '../../contexts/auth.context';
-import { sanitize } from '../../helpers/sanitizer.helper';
 import { validateUser } from '../../helpers/validator.helper';
 import { create } from '../../user/user.api';
 
@@ -60,8 +59,7 @@ const Signup = () => {
   const signupClick = async () => {
     if (error) setError('');
 
-    const sanitizedValues = sanitize(values);
-    const validations = validateUser(sanitizedValues);
+    const validations = validateUser(values);
 
     if (validations.error) {
       setError(validations.error);
@@ -69,7 +67,7 @@ const Signup = () => {
       return;
     }
 
-    const res = await create(values);
+    const res = await create(validations.sanitizedValues);
 
     if (res && res.error) {
       setError(res.error);

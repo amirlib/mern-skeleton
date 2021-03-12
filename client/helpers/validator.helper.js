@@ -1,5 +1,6 @@
-import validateValues from '../../validators/validator';
+import { sanitize } from './sanitizer.helper';
 import userSchema from '../schema/user.schema';
+import { validateValues } from '../../validators/validator';
 
 const profileModel = {
   ...userSchema,
@@ -26,7 +27,13 @@ const profileModel = {
   },
 };
 
-const validateProfile = (values) => validateValues(values, profileModel);
-const validateUser = (values) => validateValues(values, userSchema);
+const validate = (values, schema) => {
+  const sanitizedValues = sanitize(values, schema);
+
+  return validateValues(sanitizedValues, schema);
+};
+
+const validateProfile = (values) => validate(values, profileModel);
+const validateUser = (values) => validate(values, userSchema);
 
 export { validateProfile, validateUser };

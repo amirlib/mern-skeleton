@@ -1,12 +1,12 @@
 import validator from 'validator';
 
-const sanitizeValue = (key, value) => {
-  if (key === 'profilePicture') return value;
+const sanitizeValue = (value, type) => {
+  if (type === 'file') return value;
 
   return validator.escape(value.trim());
 };
 
-const sanitize = (values) => {
+const sanitize = (values, schema) => {
   const sanitizedValues = {};
   const pairs = Object.entries(values);
 
@@ -17,7 +17,7 @@ const sanitize = (values) => {
       {
         configurable: true,
         enumerable: true,
-        value: sanitizeValue(pair[0], pair[1]),
+        value: sanitizeValue(pair[1], schema[pair[0]].type),
         writable: true,
       },
     );

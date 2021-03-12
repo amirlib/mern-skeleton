@@ -1,4 +1,4 @@
-import userSchema from '../../schema/user.schema';
+import userSchema from '../schema/user.schema';
 
 const createFormData = (values, model) => {
   const data = new FormData();

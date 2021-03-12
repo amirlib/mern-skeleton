@@ -25,6 +25,9 @@ const UserSchema = new mongoose.Schema(
       required: 'Password is required',
       type: String,
     },
+    profilePictureId: {
+      type: String,
+    },
     tokens: [{
       token: {
         type: String,

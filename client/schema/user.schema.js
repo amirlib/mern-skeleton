@@ -29,6 +29,17 @@ const userSchema = {
     },
     type: 'string',
   },
+  profilePicture: {
+    fieldName: 'Profile picture',
+    options: {
+      extensions: ['jpg', 'jpeg', 'png'],
+      maxSize: 1048576,
+      minSize: 1,
+      required: false,
+      types: ['image/jpeg', 'image/pjpeg', 'image/png'],
+    },
+    type: 'file',
+  },
 };
 
 export default userSchema;

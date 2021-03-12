@@ -9,7 +9,8 @@ import SignupForm from './SignupForm';
 import RedirectDialog from '../UI/dialogs/RedirectDialog';
 import TitleTypography from '../UI/typographies/TitleTypography';
 import { AuthContext } from '../../contexts/auth.context';
-import { sanitizeValues, validateUser } from '../../helpers/validator.helper';
+import { sanitize } from '../../helpers/sanitizer.helper';
+import { validateUser } from '../../helpers/validator.helper';
 import { create } from '../../user/user.api';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +60,7 @@ const Signup = () => {
   const signupClick = async () => {
     if (error) setError('');
 
-    const sanitizedValues = sanitizeValues(values);
+    const sanitizedValues = sanitize(values);
     const validations = validateUser(sanitizedValues);
 
     if (validations.error) {

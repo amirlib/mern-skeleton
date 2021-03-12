@@ -10,7 +10,8 @@ import NoticeDialog from '../UI/dialogs/NoticeDialog';
 import TitleTypography from '../UI/typographies/TitleTypography';
 import { AuthContext } from '../../contexts/auth.context';
 import { createProfileFormData } from '../../helpers/formData.helper';
-import { sanitizeValues, validateProfile } from '../../helpers/validator.helper';
+import { sanitize } from '../../helpers/sanitizer.helper';
+import { validateProfile } from '../../helpers/validator.helper';
 import { TitleType } from '../../style/types';
 import { read, update } from '../../user/user.api';
 
@@ -77,7 +78,7 @@ const EditProfilePage = () => {
   const handleSaveClick = async () => {
     if (error) setError('');
 
-    const sanitizedValues = sanitizeValues(values);
+    const sanitizedValues = sanitize(values);
     const validations = validateProfile(sanitizedValues);
 
     if (validations.error) {
